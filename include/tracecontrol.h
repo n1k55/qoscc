@@ -25,7 +25,6 @@
 
 #include "dbuffer.h"
 
-#include <QGroupBox>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QLabel>

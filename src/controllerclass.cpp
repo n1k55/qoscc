@@ -15,7 +15,6 @@
 #include <cstring>
 #include <cstdio>
 #include <string>
-#include <cstring>
 #include <mutex>
 #include <thread>
 #include <fftw3.h>

@@ -33,7 +33,6 @@
 
 #include <thread>
 #include <cmath>
-#include <string>
 
 // interface for controller?
 #include "scopeclass.h"
