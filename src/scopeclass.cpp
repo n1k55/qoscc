@@ -118,8 +118,7 @@ int ScopeClass::addTrace(TraceInterface *newtrace) {
         newbuf[i] = buf[i];
     }
 
-    if(buf)
-        delete [] buf;
+    delete [] buf;
     buf = newbuf;
 
     // delete old array if it existed

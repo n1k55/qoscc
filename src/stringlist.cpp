@@ -35,8 +35,7 @@ stringlist::~stringlist() {
     // clean up....
     for(unsigned int i = 0; i < num; i++)
         delete strings[i];
-    if(strings)
-        delete [] strings;
+    delete [] strings;
 }
 
 // string getString(unsigned int)
