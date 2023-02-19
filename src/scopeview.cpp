@@ -32,7 +32,7 @@ ScopeView::ScopeView(ScopeInterface* _modelScope, QWidget *parent, const char *_
 
     // create new painter and pixmap
     painter = new QPainter;
-    pm = new QPixmap(qMax(pm->width(), width()), qMax(pm->height(), height()));
+    pm = new QPixmap(width(), height());
     pm->fill(QColor(QString::fromStdString(getBCol())));
     show();
 }
