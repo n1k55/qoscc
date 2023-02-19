@@ -36,7 +36,7 @@
 #include "dspmm.h"
 #endif
 
-DeviceClass::DeviceClass(ControllerClass* _parentController):  parentController(_parentController), dsp(new dspNONE), name("NoNameDevice"), type(PCM_NONE), buf(NULL), readerRunning(false), close(false)
+DeviceClass::DeviceClass(ControllerClass* _parentController):  parentController(_parentController), dsp(new dspNONE), name("NoNameDevice"), type(PCM_NONE), buf(nullptr), readerRunning(false), close(false)
 {
 //    buffersize = 2048;
 }
@@ -45,9 +45,9 @@ DeviceClass::~DeviceClass()
 {
   stop();
   delete dsp;
-  dsp = NULL;
+  dsp = nullptr;
   delete [] buf;
-  buf= NULL;
+  buf= nullptr;
 }
 
 void DeviceClass::readbuffers() 
@@ -204,7 +204,7 @@ int DeviceClass::stop() {
       // free buffer
       if(buf) {
         delete [] buf;
-        buf = NULL;
+        buf = nullptr;
       }
     }
     return ret;
@@ -445,5 +445,5 @@ void *DeviceClass::deviceHandler() {
   run();
   printf("deviceHandler() exits\n");
   fflush(stdout);
-  return NULL;
+  return nullptr;
 }

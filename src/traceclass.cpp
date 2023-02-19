@@ -30,7 +30,7 @@ TraceClass::TraceClass(ControllerClass* _parentController)
      xshift(0.0),
      yshift(0.0),
      parentname("unknown"),
-     parent(NULL),
+     parent(nullptr),
      buffersize(2048),
      bufferPos(0),
      PerfectBuffer(true)

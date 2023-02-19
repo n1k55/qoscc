@@ -26,8 +26,8 @@ dspJACK::dspJACK() : dspCommon() {
     jackdRunning = true;
 
     // init "buffer ready" condition
-    pthread_cond_init(&data_ready, NULL);
-    pthread_mutex_init(&data_ready_lock, NULL);
+    pthread_cond_init(&data_ready, nullptr);
+    pthread_mutex_init(&data_ready_lock, nullptr);
 
     // register as client
     if((client = jack_client_new("QOscC")) == 0) {
@@ -111,7 +111,7 @@ int dspJACK::closeDevice() {
 
         // remove buffer
         delete [] buffer;
-        buffer = NULL;
+        buffer = nullptr;
 
         // detach from ports
         for(unsigned int ch = 0; ch < channels; ch++) {
@@ -119,9 +119,9 @@ int dspJACK::closeDevice() {
             jack_port_unregister(client, outports[ch]);
         }
         delete [] inports;
-        inports = NULL;
+        inports = nullptr;
         delete [] outports;
-        outports = NULL;
+        outports = nullptr;
         running = false;
     }
     return 0;

@@ -60,11 +60,11 @@ void ScopeClass::initVars() {
     dbMin = -130.0;
     dbMax = 0.0;
 
-    trigger_source = NULL;
-    xysource_x = NULL;
-    xysource_y = NULL;
+    trigger_source = nullptr;
+    xysource_x = nullptr;
+    xysource_y = nullptr;
 
-    buf = NULL;
+    buf = nullptr;
 }
 //*********************************************************last changes above todo
 
@@ -242,7 +242,7 @@ TraceInterface *ScopeClass::getTrace(const std::string &name) {
         if(name == traces[i]->getName()) {
             return traces[i];
         }
-    return NULL;
+    return nullptr;
 }
 
 TraceInterface *ScopeClass::getTrace(unsigned int i)
