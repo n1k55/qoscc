@@ -44,7 +44,7 @@ double stringToNum(const std::string &text) {
         value /= 1000000000000.0;
     else if((signed)text.find('n') != -1)
         value /= 1000000000.0;
-    else if((signed)text.find('u') != -1 || (signed)text.find("µ") != -1)
+    else if((signed)text.find('u') != -1 || (signed)text.find("Âµ") != -1)
         value /= 1000000.0;
     else if((signed)text.find('m') != -1)
         value /= 1000.0;
