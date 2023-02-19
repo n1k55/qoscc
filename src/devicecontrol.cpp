@@ -33,7 +33,7 @@
 #include <QTimer>
 #include <QString>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "dspcommon.h"
 #include "stringlist.h"

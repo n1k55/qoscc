@@ -13,13 +13,13 @@
 #include "controllerclass.h"
 
 #include <cstring>
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <cstring>
 #include <mutex>
 #include <thread>
 #include <fftw3.h>
-#include <errno.h>
+#include <cerrno>
 #include <unistd.h>
 #include <iostream>
 

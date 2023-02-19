@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cerrno>
 #include <string>
 #include <mutex>
 #include <chrono>
-#include <math.h>
+#include <cmath>
 
 #ifndef M_SQRT2
 #define M_SQRT2 1.41421356237309504880

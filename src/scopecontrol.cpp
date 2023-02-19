@@ -32,7 +32,7 @@
 #include <QCursor>
 
 #include <thread>
-#include <math.h>
+#include <cmath>
 #include <string>
 
 // interface for controller?

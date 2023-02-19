@@ -13,7 +13,7 @@
 #include "dspjack.h"
 
 #include <jack/jack.h>
-#include <string.h>
+#include <cstring>
 #include <string>
 
 #include "stringlist.h"

@@ -21,7 +21,7 @@
 
 #include "tracecontrol.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QCheckBox>
 #include <QColor>

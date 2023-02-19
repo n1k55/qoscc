@@ -1,7 +1,7 @@
 #ifndef SCOPECLASS_H
 #define SCOPECLASS_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <mutex>
 #include <vector>

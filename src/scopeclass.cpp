@@ -1,11 +1,11 @@
 #include "scopeclass.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <unistd.h>
-#include <math.h>
-#include <errno.h>
-#include <string.h>
+#include <cmath>
+#include <cerrno>
+#include <cstring>
 
 #include <fftw3.h>
 

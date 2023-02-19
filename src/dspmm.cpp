@@ -16,9 +16,9 @@
 #include <sys/termios.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
-#include <stdio.h>
-#include <errno.h>
-#include <math.h>
+#include <cstdio>
+#include <cerrno>
+#include <cmath>
 #include <string>
 #include <cstring>
 #include <unistd.h>  // NOLINT

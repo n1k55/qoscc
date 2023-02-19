@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cerrno>
 #include <cstring>
 #include <string>
 #include <thread>

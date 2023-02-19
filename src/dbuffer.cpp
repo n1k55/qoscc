@@ -12,7 +12,7 @@
 
 #include "dbuffer.h"
 
-#include <math.h>
+#include <cmath>
 #include <fftw3.h>
 
 #ifdef QOSCC_DEBUG
@@ -231,7 +231,7 @@ std::string dbuffer::getTypeString(){
 }
 
 std::string dbuffer::getUnitString(){
-    std::string units[] = {"none", "V DC", "V AC", "A DC", "A AC", "Ohm", "W", "K", "°C", "Fahrenheit", "F"};
+    std::string units[] = {"none", "V DC", "V AC", "A DC", "A AC", "Ohm", "W", "K", "ï¿½C", "Fahrenheit", "F"};
     return units[unit];
 }
 
