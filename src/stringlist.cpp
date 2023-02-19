@@ -13,8 +13,6 @@
 #include "stringlist.h"
 
 #include <cstdio>
-#include "stringlist.h"
-
 #include <stdexcept>
 
 stringlist::stringlist() {
