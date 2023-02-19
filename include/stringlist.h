@@ -13,6 +13,7 @@
 #define STRINGLIST_H
 
 #include <string>
+#include <vector>
 
 class stringlist {
 public:
@@ -24,9 +25,7 @@ public:
 
 private:
     stringlist(const stringlist &);
-    
-    std::string **strings;
-    unsigned int num;
+    std::vector<std::string> storage {};
 };
 
 #endif

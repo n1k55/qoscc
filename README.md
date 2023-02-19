@@ -9,6 +9,9 @@ WIP:
 - need to convert QT3 related code to QT5 or higher
 - refactor old code with circular dependencies
 
+TODO:
+- get rid of handcrafted stringlist
+
 
 History
 ==========
