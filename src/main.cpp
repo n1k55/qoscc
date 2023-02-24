@@ -7,5 +7,5 @@ int main(int argc, char *argv[])
     QOscCWindow w;
     w.show();
  
-    return a.exec();
+    return QApplication::exec();
 }

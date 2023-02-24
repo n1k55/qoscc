@@ -20,5 +20,5 @@ int main(int argc, char *argv[])
     w.setCentralWidget(slider_container);
     w.show();
  
-    return a.exec();
+    return QApplication::exec();
 }
