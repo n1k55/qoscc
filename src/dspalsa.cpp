@@ -174,7 +174,7 @@ int dspALSA::closeDevice() {
 }
 
 int dspALSA::setDeviceName(const std::string& n) {
-    if(!n.compare(deviceName))
+    if(n == deviceName)
         return 0;
     if(!running) {
         deviceName = n;

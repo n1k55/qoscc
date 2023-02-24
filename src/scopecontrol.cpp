@@ -522,7 +522,7 @@ void ScopeControl::updateTriggerSource() {
 
     for(i = 0; i < liste.count(); i++) {
         triggerSource->addItem(QString::fromStdString(liste.getString(i)));
-        if(!liste.getString(i).compare(thisscope->getTriggerName()))
+        if(liste.getString(i) == thisscope->getTriggerName())
             triggerSource->setCurrentIndex(i);
     }
     // set trigger source, if none was selected
@@ -550,10 +550,10 @@ void ScopeControl::updateXYSource() {
 
     for(i = 0; i < liste.count(); i++) {
         lstXTrace->addItem(QString::fromStdString(liste.getString(i)));
-        if(!liste.getString(i).compare(thisscope->getXYSourceXName()))
+        if(liste.getString(i) == thisscope->getXYSourceXName())
             lstXTrace->setCurrentIndex(i);
         lstYTrace->addItem(QString::fromStdString(liste.getString(i)));
-        if(!liste.getString(i).compare(thisscope->getXYSourceYName()))
+        if(liste.getString(i) == thisscope->getXYSourceYName())
             lstYTrace->setCurrentIndex(i);
     }
 
