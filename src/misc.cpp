@@ -149,9 +149,7 @@ void printMessage(const char *file, const char *function, int line, int level, c
 // returns true, if both numbers differ less than 0.1 percent
 // shall be used to compare existing values on the GUI
 bool isNear(double a, double b){
-    if(fabs(a - b) / a < 0.001 && fabs(a - b) / b < 0.001)
-	return true;
-    return false;
+    return fabs(a - b) / a < 0.001 && fabs(a - b) / b < 0.001;
 }
 
 #if HAVE_GETLINE != 1
