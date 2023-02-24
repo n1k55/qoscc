@@ -356,7 +356,7 @@ void ScopeControl::setTraceList() {
                 thisscope->addTrace(trace);
         } else { // remove this trace if it exists
             if(thisscope->getTrace(trace->getName()))
-                thisscope->removeTrace(tracelist->item(i)->text().toStdString().c_str());
+                thisscope->removeTrace(tracelist->item(i)->text().toStdString());
         }
     }
     updateXYSource();

@@ -281,7 +281,7 @@ int ScopeClass::removeTrace(const std::string &tracename) {
 // int setTriggerSource(string)
 // check and set new trigger source
 int ScopeClass::setTriggerSource(std::string newname) {
-    TraceInterface *newsource = parentController->getTrace(newname.c_str());
+    TraceInterface *newsource = parentController->getTrace(newname);
     if(!newsource) {  // trace not found
         return -1;
     }
