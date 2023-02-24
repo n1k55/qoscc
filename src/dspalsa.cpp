@@ -19,7 +19,7 @@
 #include "misc.h"
 #include "dbuffer.h"
 
-dspALSA::dspALSA() : dspCommon() {
+dspALSA::dspALSA() {
     // some _basic_ inits for alsa
     stream = SND_PCM_STREAM_CAPTURE;
     deviceName = "hw:0,0";

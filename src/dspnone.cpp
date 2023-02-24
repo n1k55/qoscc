@@ -15,7 +15,7 @@
 #include "stringlist.h"
 #include "dbuffer.h"
 
-dspNONE::dspNONE() : dspCommon() {}
+dspNONE::dspNONE() {}
 
 
 dspNONE::~dspNONE() {}

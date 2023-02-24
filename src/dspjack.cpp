@@ -20,7 +20,7 @@
 #include "misc.h"
 #include "dbuffer.h"
 
-dspJACK::dspJACK() : dspCommon() {
+dspJACK::dspJACK() {
     frames = 0;
     buffer = NULL;
     jackdRunning = true;
