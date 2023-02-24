@@ -21,11 +21,6 @@ double stringToNum(const std::string &text);
 std::string numToString(double value);
 bool isNear(double a, double b);
 
-#if HAVE_GETLINE != 1
-ssize_t getdelim (char **lineptr, size_t *n, int delim, FILE *stream);
-#define getline(line, size, stream) getdelim(line, size, '\n', stream)
-#endif
-
 void printMessage(const char *file, const char *function, int line, int level, const char *text);
 
 // macros for debug messages
