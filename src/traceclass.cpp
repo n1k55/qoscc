@@ -37,8 +37,7 @@ TraceClass::TraceClass(ControllerClass* _parentController)
 {
 }
 
-TraceClass::~TraceClass() {
-}
+TraceClass::~TraceClass() {}
 
 // dump()
 // print out all internal stored values
@@ -114,8 +113,9 @@ DeviceInterface *TraceClass::getParent() {
 // re-read string values from its objects (parent / other trace names)
 void TraceClass::recalc_stringrefs() {
     // re-read parents name:
-    if(parent)
+    if(parent) {
         parentname = parent->getName();
+    }
 }
 
 // int setBuffer(float*, int)
@@ -161,7 +161,7 @@ int TraceClass::setBuffer(const dbuffer& newbuf) {
         parentController->notifyTraceUpdate(getParentName());
       }  
     }  
-  }    
+  }
   return 0;
 }
 
@@ -170,8 +170,9 @@ const dbuffer& TraceClass::getFBuf(){
 }
 
 const dbuffer& TraceClass::getTBuf(){
-    if(PerfectBuffer)
-  return buf_perfect;
+    if(PerfectBuffer) {
+        return buf_perfect;
+    }
     return buf;
 }
 
@@ -233,8 +234,9 @@ void TraceClass::setColor(const std::string & newcolor) {
 // void setBufferSize(unsigned int)
 // resize the buffer...
 int TraceClass::setBufferSize(unsigned int newsize) {
-  if(!newsize)
+  if(!newsize) {
     return -1;
+  }
   { //write lock
     std::lock_guard<std::shared_mutex> lock(rwMutex);
     buffersize = newsize;
@@ -254,8 +256,9 @@ bool TraceClass::getPerfectBuffer() {
 }
 
 double TraceClass::getDc() {
-  if(running)
+  if(running) {
     return buf_fft[(unsigned int)0];
+  }
   return 0;
 }
 

@@ -61,7 +61,7 @@ void QOscCWindow::createControls() {
         connect(scopectl, SIGNAL(setStatus(const QString& )), SLOT(setStatus(const QString&)));
         connect(scopectl, SIGNAL(labelChanged(QWidget*, const QString&)), SLOT(changeLabel(QWidget*, const QString&)));
     }
-    
+
     stringlist deviceliste;
     controller->getDeviceList(&deviceliste);
     // create controls for devices
@@ -175,8 +175,9 @@ void QOscCWindow::addDevice() {
     do {
         name = QInputDialog::getText(this, "QOscC", tr("Enter new name for device"),
                                      QLineEdit::Normal, name, &ok );
-        if(!ok) // cancel pressed, so we abort all this.....
+        if(!ok) { // cancel pressed, so we abort all this.....
             return;
+        }
         if(name.isEmpty()) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
@@ -216,8 +217,9 @@ void QOscCWindow::addScope() {
     do {
         name = QInputDialog::getText(this, "QOscC", tr("Enter new name for this scope"),
                                      QLineEdit::Normal, name, &ok);
-        if(!ok) // cancel pressed, so we abbort all this.....
+        if(!ok) { // cancel pressed, so we abbort all this.....
             return;
+        }
         if(name.isEmpty()) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
@@ -264,8 +266,9 @@ void QOscCWindow::addTrace() {
     do {
         name = QInputDialog::getText(this, "QOscC", tr("Enter new name for trace"),
                                      QLineEdit::Normal, name, &ok);
-        if(!ok) // cancel pressed, so we abbort all this.....
+        if(!ok) { // cancel pressed, so we abbort all this.....
             return;
+        }
         if(name.isEmpty()) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;

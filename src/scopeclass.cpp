@@ -81,8 +81,10 @@ std::string ScopeClass::getName() {
 // int setName(string)
 // sets the name of this scope
 int ScopeClass::setName(const std::string &newname) {
-    if(parentController->getScope(newname))
+    if(parentController->getScope(newname)) {
         return -1;
+    }
+
     {
         std::lock_guard<std::shared_mutex> lock(mutex);
         // set local name.
@@ -104,8 +106,9 @@ int ScopeClass::addTrace(TraceInterface *newtrace) {
     TraceInterface **newlist;  // create new, larger array
     newlist = new TraceInterface*[tracenum + 1];
     // copy over old traces
-    for(unsigned int i = 0; i < tracenum; i++)
+    for(unsigned int i = 0; i < tracenum; i++) {
         newlist[i] = traces[i];
+    }
     // add new device at end
     newlist[tracenum] = newtrace;
 
@@ -122,8 +125,9 @@ int ScopeClass::addTrace(TraceInterface *newtrace) {
     buf = newbuf;
 
     // delete old array if it existed
-    if(tracenum)
+    if(tracenum) {
         delete [] traces;
+    }
     // copy back new list
     traces = newlist;
 
@@ -149,8 +153,9 @@ void ScopeClass::dump(FILE *file) {
 //    fprintf(file, "markcol = %s\n", markcol.c_str());
 //    fprintf(file, "textcol = %s\n", textcol.c_str());
 //    fprintf(file, "font = %s\n", font.toString().ascii());
-    for(unsigned int i = 0; i < tracenum; i++)
+    for(unsigned int i = 0; i < tracenum; i++) {
         fprintf(file, "trace = %s\n", traces[i]->getName().c_str());
+    }
     switch (mode) {
     case M_XY:
         fprintf(file, "mode = xy\n");
@@ -206,8 +211,7 @@ void ScopeClass::setHeight(int newheight) {
 // void setWidth(int newwidth)
 // sets the new window width
 void ScopeClass::setWidth(int newwidth) {
-
-    // ToDo notify View    
+    // ToDo notify View
     //setGeometry(x(), y(), newwidth, height());
 }
 
@@ -237,10 +241,11 @@ TraceInterface *ScopeClass::getTrace(const char *name) {
 // else it returns the NULL-pointer
 TraceInterface *ScopeClass::getTrace(const std::string &name) {
     std::lock_guard<std::shared_mutex> lock(mutex);
-    for(unsigned int i = 0; i < tracenum; i++)
+    for(unsigned int i = 0; i < tracenum; i++) {
         if(name == traces[i]->getName()) {
             return traces[i];
         }
+    }
     return nullptr;
 }
 
@@ -248,12 +253,15 @@ TraceInterface *ScopeClass::getTrace(unsigned int i)
 {
   return traces[i];
 }  
+
 // int removeTrace(traceClass *trace)
 // removes specified trace and its local buffer from list
 int ScopeClass::removeTrace(TraceInterface *trace) {
     // bail out if we got a zero pointer
-    if(!trace || tracenum < 1)
+    if(!trace || tracenum < 1) {
         return -1;
+    }
+
     {
         std::lock_guard<std::shared_mutex> lock(mutex);
 
@@ -277,7 +285,6 @@ int ScopeClass::removeTrace(const std::string &tracename) {
     return removeTrace(parentController->getTrace(tracename));
 }
 
-
 // int setTriggerSource(string)
 // check and set new trigger source
 int ScopeClass::setTriggerSource(std::string newname) {
@@ -285,6 +292,7 @@ int ScopeClass::setTriggerSource(std::string newname) {
     if(!newsource) {  // trace not found
         return -1;
     }
+
     {
         std::lock_guard<std::shared_mutex> lock(mutex);    
         trigger_source = newsource;
@@ -298,13 +306,16 @@ int ScopeClass::setTriggerSource(std::string newname) {
 void ScopeClass::recalc_stringrefs() {
     std::lock_guard<std::shared_mutex> lock(mutex);
     // trigger source:
-    if(parentController->hasTrace(trigger_source))
+    if(parentController->hasTrace(trigger_source)) {
         trigger_source_name = trigger_source->getName();
+    }
     // xy sources:
-    if(parentController->hasTrace(xysource_x))
+    if(parentController->hasTrace(xysource_x)) {
         xysource_x_name = xysource_x->getName();
-    if(parentController->hasTrace(xysource_y))
+    }
+    if(parentController->hasTrace(xysource_y)) {
         xysource_y_name = xysource_y->getName();
+    }
 }
 
 // do_trigger()
@@ -343,8 +354,10 @@ int ScopeClass::do_trigger(unsigned int trace) {
 // check and set new x source
 int ScopeClass::setXYSourceX(std::string newname) {
     TraceInterface *newsource = getTrace(newname);
-    if(!newsource)  // trace not found
+    if(!newsource) {  // trace not found
         return -1;
+    }
+
     {
         std::lock_guard<std::shared_mutex> lock(mutex);
         xysource_x = newsource;
@@ -357,8 +370,10 @@ int ScopeClass::setXYSourceX(std::string newname) {
 // check and set new y source
 int ScopeClass::setXYSourceY(std::string newname) {
     TraceInterface *newsource = getTrace(newname);
-    if(!newsource)  // trace not found
+    if(!newsource) {  // trace not found
         return -1;
+    }
+
     {
         std::lock_guard<std::shared_mutex> lock(mutex);
         xysource_y = newsource;
@@ -386,8 +401,9 @@ std::string ScopeClass::getXYSourceYName() {
 void ScopeClass::getTraceList(stringlist *liste) {
     std::lock_guard<std::shared_mutex> lock(mutex);
     // compose list...
-    for(unsigned int i = 0; i < tracenum; i++)
+    for(unsigned int i = 0; i < tracenum; i++) {
         liste->addString(traces[i]->getName());
+    }
 }
 
 // all following get / set functions.
@@ -495,12 +511,12 @@ void ScopeClass::setDispFMax(unsigned int n) {
     dispFMax = n;
 }
 
-
 void ScopeClass::setInfoTraceName(const std::string& newname) {
     std::lock_guard<std::shared_mutex> lock(mutex);
     // check if trace exists
-    if(parentController->getTrace(newname))
+    if(parentController->getTrace(newname)) {
         infoTraceName = newname;
+    }
 }
 
 std::string ScopeClass::getInfoTraceName() {
@@ -544,11 +560,10 @@ void ScopeClass::setDbMax(double maxDbs) {
 // store current displayed data to file as text
 // data shall be organized such that gnuplot can handle it!
 int ScopeClass::storeValues(FILE *fd, double start, double rate, int frames) {
-
-    if(tracenum <= 0)
+    if(tracenum <= 0) {
         return -1;
-    
-      
+    }
+
     {
         std::lock_guard<std::shared_mutex> lock(mutex);
         // print some misc information
@@ -556,46 +571,43 @@ int ScopeClass::storeValues(FILE *fd, double start, double rate, int frames) {
         fprintf(fd, "# rate: %f * 1/%s, %d samples\n", rate, buf[0].getTypeString().c_str(), frames);
         // print table header
         fprintf(fd, "# Traces:\n#\t");
-        for(unsigned int i = 0; i < tracenum; i ++)
+        for(unsigned int i = 0; i < tracenum; i ++) {
             fprintf(fd, "\t\"%s\"\t", traces[i]->getName().c_str());
+        }
         fprintf(fd, "\n");
-    
+
         // write buffer to file
         for(int i = 0; i < frames; i++) {
             double t = (double)i / rate + start;
             // write timestamp
             fprintf(fd, "%f\t", t);
-    
+
             // write the values...
-            for(unsigned int tr = 0; tr < tracenum; tr++)
+            for(unsigned int tr = 0; tr < tracenum; tr++) {
                 fprintf(fd, "%f\t",  buf[tr].getValue(t));
+            }
             fprintf(fd, "\n");
         }
     }
     return 0;
 }
 
-
 // double getMaxDspRate()
 // return the maximum dsp rate of all traces in this scope.
 double ScopeClass::getMaxDspRate() {
     double maxRate = 0.0;
-    for(unsigned int tr = 0; tr < tracenum; tr++)
-        if(buf[tr].getSampleRate() > maxRate)
+    for(unsigned int tr = 0; tr < tracenum; tr++) {
+        if(buf[tr].getSampleRate() > maxRate) {
             maxRate = buf[tr].getSampleRate();
+        }
+    }
     return maxRate;
 }
 
 // ToDo:
-void ScopeClass::registerObserver(const ScopeObserver* newObserver){
-
-}
-void ScopeClass::removeObserver(const ScopeObserver* delObserver){
-
-}
-void ScopeClass::notifyObserver(){
-
-} 
+void ScopeClass::registerObserver(const ScopeObserver* newObserver){}
+void ScopeClass::removeObserver(const ScopeObserver* delObserver){}
+void ScopeClass::notifyObserver(){}
 
 void ScopeClass::setFont(const std::string& newfont) {
     std::lock_guard<std::shared_mutex> lock(mutex);
@@ -604,16 +616,18 @@ void ScopeClass::setFont(const std::string& newfont) {
 
 void ScopeClass::notifyTraceUpdate(const std::string& devicename) {
     // we can discard the notify if we are in hold mode.
-    if(hold)
+    if(hold) {
         return;
+    }
 
     std::shared_lock<std::shared_mutex> lock(mutex);
     {
-        for(unsigned int i = 0; i < tracenum; i++)
+        for(unsigned int i = 0; i < tracenum; i++) {
             if(devicename == traces[i]->getParentName()) {
                 // ToDo notify View
                 //triggerRedrawScope();
                 break;
             }
+        }
     }
 }

@@ -52,8 +52,9 @@ DeviceClass::~DeviceClass()
 
 void DeviceClass::readbuffers() 
 {
-  if(!readerRunning)
+  if(!readerRunning) {
     return;
+  }
   //pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
   {  // read lock
     std::shared_lock<std::shared_mutex> lock(rwMutex);
@@ -72,14 +73,16 @@ void DeviceClass::readbuffers()
     {
     //        printf("device: buffer of ch %d fill is: %d\n", ch, buf[ch].getNumSamples());fflush(stdout);
       buf[ch].setSampleRate(dsp->getDspRate());
-        for(unsigned int i = 0; i < traces.count(); i++) {
-          TraceInterface *trace = parentController->getTrace(traces.getString(i));
-          if(!trace) // skip if trace does not exist
-            continue;
-          // transfer the buffer, if traces parent && channel matches this one
-          if(trace->getParentName() == name && trace->getDevChannel() == ch)
-            trace->setBuffer(buf[ch]);
+      for(unsigned int i = 0; i < traces.count(); i++) {
+        TraceInterface *trace = parentController->getTrace(traces.getString(i));
+        if(!trace) { // skip if trace does not exist
+          continue;
         }
+        // transfer the buffer, if traces parent && channel matches this one
+        if(trace->getParentName() == name && trace->getDevChannel() == ch) {
+          trace->setBuffer(buf[ch]);
+        }
+      }
     }
   }
   //pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
@@ -302,7 +305,6 @@ int DeviceClass::setDspRate(double rate) {
   return ret;
 }
 
-
 unsigned int DeviceClass::getBuffersize() {
   return dsp->getBufferSize();
 }
@@ -322,7 +324,7 @@ void DeviceClass::run() {
     // slow down this loop and give other lock()ers time to do their work.
     // its only 10msecs, but the effect is enormous!!
     // hope this is more or less portable (on slower machines....?)
-    std::this_thread::sleep_for(std::chrono::microseconds(10));;
+    std::this_thread::sleep_for(std::chrono::microseconds(10));
     readbuffers();
   }
 }
@@ -339,8 +341,9 @@ int DeviceClass::setDeviceType(int newtype) {
     std::lock_guard<std::shared_mutex> lock(rwMutex);
 
     // possibly stop device
-    if(dsp->isRunning())
+    if(dsp->isRunning()) {
         dsp->closeDevice();
+    }
 
     // create - copy - delete
     dspCommon* newdsp;

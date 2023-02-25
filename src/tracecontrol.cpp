@@ -133,8 +133,9 @@ TraceControl::~TraceControl() {
     stringlist liste;
     _parentController->getScopeList(&liste);
     // from scopes
-    for(unsigned int i = 0; i < liste.count(); i++)
+    for(unsigned int i = 0; i < liste.count(); i++) {
         _parentController->getScope(liste.getString(i))->removeTrace(trace);
+    }
 
     // finally remove it
     delete trace;
@@ -146,8 +147,9 @@ TraceControl::~TraceControl() {
 
 void TraceControl::setCol() {
     QColor col = QColorDialog::getColor(QColor(QString::fromStdString(trace->getColor())));
-    if(col.isValid())
+    if(col.isValid()) {
         trace->setColor(col.name().toStdString());
+    }
 }
 
 void TraceControl::setXPos(float val) {
@@ -162,8 +164,9 @@ void TraceControl::getName() {
     bool ok = false;
     QString text = QInputDialog::getText(this, "QOscC", tr("Enter new name for trace"),
                                          QLineEdit::Normal, QString::fromStdString(trace->getName()), &ok);
-    if(!ok || text.isEmpty())
+    if(!ok || text.isEmpty()) {
         return;
+    }
 
     trace->setname(text.toLatin1().toStdString());
     updateTitle();
@@ -171,8 +174,9 @@ void TraceControl::getName() {
 }
 
 void TraceControl::update() {
-    if(!trace)
+    if(!trace) {
         return;
+    }
 
     trace->recalc_stringrefs();
 
@@ -211,16 +215,18 @@ void TraceControl::suicide() {
 // assign this trace to spec. Device
 void TraceControl::setParentDevice(const QString &name) {
     // bail out if name is empty
-    if(name.isEmpty())
+    if(name.isEmpty()) {
         return;
+    }
     if(!_parentController->getDevice(name.toStdString())) {
         QMessageBox::critical(this, tr("Ooops.."), tr("No such Device:") + name);
         return;
     }
 
     // if selected name is the current, we do nothing.....
-    if(trace->getParentName() == name.toStdString())
+    if(trace->getParentName() == name.toStdString()) {
         return;
+    }
 
     trace->setParentName(name.toStdString());
     updateParentChannels();
@@ -230,8 +236,9 @@ void TraceControl::setParentDevice(const QString &name) {
 // assign to specified channel number
 void TraceControl::setParentChannel(const QString &name) {
     // check if correct channel is already set
-    if(name.toUInt() == trace->getDevChannel())
+    if(name.toUInt() == trace->getDevChannel()) {
         return;
+    }
     // else set to correct channel
     trace->setDevChannel(name.toUInt());
 }
@@ -247,8 +254,9 @@ void TraceControl::updateParent() {
     // copy list to combobox
     for(unsigned int i = 0; i < liste.count(); i++) {
         parentList->addItem(QString::fromStdString(liste.getString(i)));
-        if(liste.getString(i) == std::string(trace->getParentName()))
+        if(liste.getString(i) == std::string(trace->getParentName())) {
             parentList->setCurrentIndex(i);
+        }
     }
     // set parent if none is selected by now...
     setParentDevice(parentList->currentText());
@@ -257,9 +265,10 @@ void TraceControl::updateParent() {
 // void updateParentChannels()
 // update Parent selection combo boxes
 void TraceControl::updateParentChannels() {
-    if(!trace->getParent())
+    if(!trace->getParent()) {
         return;
-    
+    }
+
     unsigned int channels = trace->getParent()->getChNum();
 
     parentChannel->clear();
@@ -268,8 +277,9 @@ void TraceControl::updateParentChannels() {
         QString text = "";
         text.setNum(i);
         parentChannel->addItem(text);
-        if(i == trace->getDevChannel())
+        if(i == trace->getDevChannel()) {
             parentChannel->setCurrentIndex(i);
+        }
     }
     // set channel if none is selected by now..
     setParentChannel(parentChannel->currentText());
@@ -280,8 +290,9 @@ void TraceControl::updatePerfectBuffer() {
 }
 
 void TraceControl::updateBuffersize() {
-    if(!trace->getParent())
+    if(!trace->getParent()) {
         return;
+    }
     int i;
     for(i = 0; i < bufferSize->count(); i++) {
         if(isNear(stringToNum(bufferSize->itemText(i).toStdString()) * trace->getParent()->getDspRate(), trace->getBufferSize())) {
@@ -297,10 +308,11 @@ void TraceControl::setBuffersize() {
     double value = stringToNum(bufferSize->currentText().toStdString());
     if(trace->getParent() && value >= 0) {
         emit(setStatus(tr("Setting buffersize. This may take a while")));
-        if(trace->setBufferSize((unsigned int)(value * trace->getParent()->getDspRate() + 0.5)))
+        if(trace->setBufferSize((unsigned int)(value * trace->getParent()->getDspRate() + 0.5))) {
             emit(setStatus(tr("Setting buffersize to %1 samples failed").arg((unsigned int)(value * trace->getParent()->getDspRate() + 0.5))));
-        else
+        } else {
             emit(setStatus(QString(tr("Set buffersize to %1s")).arg(QString::fromStdString(numToString(value)))));
+        }
         return;
     }
     emit(setStatus(tr("Cannot set buffersize!")));
@@ -309,7 +321,6 @@ void TraceControl::setBuffersize() {
 void TraceControl::setPerfectBuffer(bool) {
     trace->setPerfectBuffer(perfectBuffer->isChecked());
 }
-
 
 void TraceControl::setFftWin(int index){
     dbuffer::fftWinType type = (dbuffer::fftWinType)index;

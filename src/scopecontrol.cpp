@@ -62,7 +62,7 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     QAction *set_background_color = new QAction("Set background color",this);
     QAction *set_text_color = new QAction("Set text color",this);
     QAction *set_scope_font = new QAction("Set scope font",this);
-    
+
     connect(set_name, SIGNAL(triggered()), this, SLOT(setScopeName()));
     connect(delete_scope, SIGNAL(triggered()), this, SLOT(suicide()));
     connect(export_data, SIGNAL(triggered()), this, SLOT(saveDataFile()));
@@ -194,11 +194,11 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     triggerbox = new QGroupBox(tr("Trigger"), this );
 
     QHBoxLayout *miscoptsLayout = new QHBoxLayout;
-    
+
     QButtonGroup *tedgebox = new QButtonGroup(this);
 
     tedgebox->setExclusive(true);
-    
+
     btnTedgeNone  = new QRadioButton( tr("None"), this);
     btnTedgePositive  = new QRadioButton( tr("Positive"), this);
     btnTedgeNegative   = new QRadioButton( tr("Negative"), this);
@@ -223,7 +223,6 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     trgSrcBox->setLayout(trgSrcBoxLayout);
     connect(triggerSource, SIGNAL(activated(const QString&)), SLOT(setTriggerSource(const QString&)));
 
-    
     //TODO
     sldLevel = new fSlider("", this);
     sldLevel->setTitle(tr("Level"));
@@ -255,7 +254,7 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     groupMiscLayout->addWidget(infoTrace);
     groupMisc->setLayout(groupMiscLayout);
     connect(infoTrace, SIGNAL(activated(const QString&)), SLOT(setInfoTrace(const QString&)));
-    
+
     updateLocal();
 }
 
@@ -264,29 +263,33 @@ ScopeControl::~ScopeControl() {}
 void ScopeControl::setColGrid() {
     QColor col;
     col = QColorDialog::getColor(QString::fromStdString(_view->getGridCol()));
-    if(col.isValid())
+    if(col.isValid()) {
         _view->setGridCol(col.name().toStdString());
+    }
 }
 
 void ScopeControl::setColMark() {
     QColor col;
     col = QColorDialog::getColor(QString::fromStdString(_view->getMarkCol()));
-    if(col.isValid())
+    if(col.isValid()) {
         _view->setMarkCol(col.name().toStdString());
+    }
 }
 
 void ScopeControl::setColBg() {
     QColor col;
     col = QColorDialog::getColor(QString::fromStdString(_view->getBCol()));
-    if(col.isValid())
+    if(col.isValid()) {
         _view->setBCol(col.name().toStdString());
+    }
 }
 
 void ScopeControl::setColText() {
     QColor col;
     col = QColorDialog::getColor(QString::fromStdString(_view->getTextCol()));
-    if(col.isValid())
+    if(col.isValid()) {
         _view->setTextCol(col.name().toStdString());
+    }
 }
 
 void ScopeControl::updateLocal() {
@@ -334,8 +337,9 @@ void ScopeControl::updateTraceList() {
     for(i = 0; i < liste.count(); i++) {
         tracelist->addItem(QString::fromStdString(liste.getString(i)));
         // check if this trace is in this scope...
-        if(thisscope->getTrace(liste.getString(i)))
+        if(thisscope->getTrace(liste.getString(i))) {
             tracelist->setCurrentRow(i); // set selected item true
+        }
     }
 }
 
@@ -352,11 +356,13 @@ void ScopeControl::setTraceList() {
         }
         if(tracelist->currentRow() == i) {
             // add this trace if it doesnt exist yet
-            if(!thisscope->getTrace(trace->getName()))
+            if(!thisscope->getTrace(trace->getName())) {
                 thisscope->addTrace(trace);
+            }
         } else { // remove this trace if it exists
-            if(thisscope->getTrace(trace->getName()))
+            if(thisscope->getTrace(trace->getName())) {
                 thisscope->removeTrace(tracelist->item(i)->text().toStdString());
+            }
         }
     }
     updateXYSource();
@@ -490,7 +496,7 @@ void ScopeControl::setTriggerLevel(float val) {
 }
 
 void ScopeControl::updateTLevel() {
-	//to do Add/Fix slider
+    //to do Add/Fix slider
     //sldLevel->setValue(thisscope->getTriggerLevel());
 }
 
@@ -522,8 +528,9 @@ void ScopeControl::updateTriggerSource() {
 
     for(i = 0; i < liste.count(); i++) {
         triggerSource->addItem(QString::fromStdString(liste.getString(i)));
-        if(liste.getString(i) == thisscope->getTriggerName())
+        if(liste.getString(i) == thisscope->getTriggerName()) {
             triggerSource->setCurrentIndex(i);
+        }
     }
     // set trigger source, if none was selected
     setTriggerSource(triggerSource->currentText());
@@ -550,11 +557,13 @@ void ScopeControl::updateXYSource() {
 
     for(i = 0; i < liste.count(); i++) {
         lstXTrace->addItem(QString::fromStdString(liste.getString(i)));
-        if(liste.getString(i) == thisscope->getXYSourceXName())
+        if(liste.getString(i) == thisscope->getXYSourceXName()) {
             lstXTrace->setCurrentIndex(i);
+        }
         lstYTrace->addItem(QString::fromStdString(liste.getString(i)));
-        if(liste.getString(i) == thisscope->getXYSourceYName())
+        if(liste.getString(i) == thisscope->getXYSourceYName()) {
             lstYTrace->setCurrentIndex(i);
+        }
     }
 
     switch(thisscope->getMode()) {
@@ -565,10 +574,12 @@ void ScopeControl::updateXYSource() {
         globalXYBox->hide();
     }
 
-    if(lstXTrace->count())
+    if(lstXTrace->count()) {
         setXSource(lstXTrace->currentText());
-    if(lstYTrace->count())
+    }
+    if(lstYTrace->count()) {
         setYSource(lstYTrace->currentText());
+    }
 }
 
 void ScopeControl::setXSource(const QString &n) {
@@ -642,8 +653,9 @@ void ScopeControl::updateDispFMax() {
 }
 
 void ScopeControl::setInfoTrace(const QString &name) {
-    if(name != "")
+    if(name != "") {
         thisscope->setInfoTraceName(name.toStdString());
+    }
 }
 
 void ScopeControl::updateInfoTrace() {
@@ -766,10 +778,11 @@ void ScopeControl::updateBoxDbRange() {
         boxDbRange->hide();
         break;
     case M_FFT:
-        if(thisscope->getDispDb())
+        if(thisscope->getDispDb()) {
             boxDbRange->show();
-        else
+        } else {
             boxDbRange->hide();
+        }
         break;
     }
 }
@@ -824,10 +837,11 @@ void ScopeControl::updateBoxVDiv() {
         boxVDiv->show();
         break;
     case M_FFT:
-        if(thisscope->getDispDb())
+        if(thisscope->getDispDb()) {
             boxVDiv->hide();
-        else
+        } else {
             boxVDiv->show();
+        }
     }
 }
 
@@ -876,13 +890,14 @@ void ScopeControl::saveDataFile() {
         return;
     }
 
-    if(!thisscope->storeValues(fd, dl->getStart(), dl->getRate(), dl->getNSamples()))
+    if(!thisscope->storeValues(fd, dl->getStart(), dl->getRate(), dl->getNSamples())) {
         emit setStatus(tr("Datafile %1 successfully written").arg(dl->getFileName()));
-    else
+    } else {
         emit setStatus(tr("Writing datafile %1 failed!").arg(dl->getFileName()));
-    
+}
+
     fclose(fd);
-    
+
     delete dl; 
 }
 
@@ -893,6 +908,7 @@ void ScopeControl::setScopeFont(){
     QFont font;
     font.fromString(QString::fromStdString(thisscope->getFont()));
     font = QFontDialog::getFont(&ok, font);
-    if(ok)
+    if(ok) {
         thisscope->setFont(font.toString().toStdString());
+    }
 }

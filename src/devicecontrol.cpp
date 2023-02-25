@@ -154,8 +154,9 @@ void DeviceControl::getName() {
         name = QInputDialog::getText(this,"QOscC", tr("Enter new name for this device"),
                                      QLineEdit::Normal, QString::fromStdString(device->getName()), &ok);
     
-        if(!ok) // cancel pressed, so we abbort all this.....
+        if(!ok) { // cancel pressed, so we abbort all this.....
             return;
+        }
         if(name.isEmpty()) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
@@ -186,8 +187,9 @@ void DeviceControl::updateDspRates() {
     device->getDspRateList(&liste);
     for(unsigned int i = 0; i < liste.count(); i++) {
         dspRates->addItem(QString::fromStdString(liste.getString(i)));
-        if(unsigned (atoi(liste.getString(i).c_str())) == device->getDspRate())
+        if(unsigned (atoi(liste.getString(i).c_str())) == device->getDspRate()) {
             dspRates->setCurrentIndex(i);
+        }
     }
 }
 
@@ -197,8 +199,9 @@ void DeviceControl::updateDspChannels() {
     device->getDspChannelList(&liste);
     for(unsigned int i = 0; i < liste.count(); i++) {
         dspChannels->addItem(QString::fromStdString(liste.getString(i)));
-        if(unsigned (atoi(liste.getString(i).c_str())) == device->getChannels())
+        if(unsigned (atoi(liste.getString(i).c_str())) == device->getChannels()) {
             dspChannels->setCurrentIndex(i);
+        }
     }
 }
 
@@ -208,8 +211,9 @@ void DeviceControl::updateDspSizes() {
     device->getDspSizeList(&liste);
     for(unsigned int i = 0; i < liste.count(); i++) {
         dspSizes->addItem(QString::fromStdString(liste.getString(i)));
-        if(atoi(liste.getString(i).c_str()) == device->getDspSize())
+        if(atoi(liste.getString(i).c_str()) == device->getDspSize()) {
             dspSizes->setCurrentIndex(i);
+        }
     }
 }
 
@@ -223,8 +227,9 @@ void DeviceControl::updateDspNames() {
     device->getDspNameList(&liste);
     for(unsigned int i = 0; i < liste.count(); i++) {
         dspNames->addItem(QString::fromStdString(liste.getString(i)));
-        if(liste.getString(i) == device->getdevname())
+        if(liste.getString(i) == device->getdevname()) {
             dspNames->setCurrentIndex(i);
+        }
     }
 }
 
@@ -238,10 +243,11 @@ void DeviceControl::setDspType() {
 
 void DeviceControl::setDspRate() {
     double value = dspRates->currentText().toDouble();
-    if(!device->setDspRate(value))
+    if(!device->setDspRate(value)) {
         emit setStatus(tr("Set samplingrate to %1Hz").arg(QString::fromStdString(numToString(value))));
-    else
+    } else {
         emit setStatus(tr("Unable to set the Samplingrate to %1Hz").arg(QString::fromStdString(numToString(value))));
+    }
 
     /*    updateDspRates();
         updateBufferSize();*/
@@ -249,10 +255,11 @@ void DeviceControl::setDspRate() {
 }
 
 void DeviceControl::setDspChannel() {
-    if(device->setChannels(dspChannels->currentText().toInt()))
+    if(device->setChannels(dspChannels->currentText().toInt())) {
         emit(setStatus(tr("Could not change number of channels")));
-    else
+    } else {
         emit(setStatus(tr("Changed number of Channels")));
+    }
     /*    updateDspChannels();*/
     emit hasChanged();
 }
@@ -279,10 +286,11 @@ void DeviceControl::tryStart() {
     setDspChannel();
     setBufferSize();
 
-    if(!device->start())
+    if(!device->start()) {
         emit setStatus(tr("Device %1 succesfully started").arg(QString::fromStdString(device->getName())));
-    else
+    } else {
         emit setStatus(tr("Device %1 could not be started!!").arg(QString::fromStdString(device->getName())));
+    }
     // update, since some parameters may change at start (buffer size, sample size...)
     //    update();
     emit hasChanged();

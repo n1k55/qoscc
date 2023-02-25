@@ -49,11 +49,11 @@ void dbuffer::initvars(){
     planIsValid = false;
 }
 
-    
 dbuffer::dbuffer(unsigned int size, double samplerate, double init){
     initvars();
-    if(size == 0)
+    if(size == 0) {
         return;
+    }
 
     if(buflen < size){
         delete [] buf;
@@ -65,8 +65,9 @@ dbuffer::dbuffer(unsigned int size, double samplerate, double init){
 //        MSG(MSG_ERROR, "Could not allocate memory!\n");
         exit(1);
     }
-    for(unsigned int i = 0; i < size; i++)
+    for(unsigned int i = 0; i < size; i++) {
         buf[i] = init;
+    }
     fill = size;
 }
 
@@ -77,7 +78,7 @@ dbuffer::dbuffer(const dbuffer& oldbuffer){
     unit = oldbuffer.unit;
     samplerate = oldbuffer.samplerate;
     planIsValid = false;
-    
+
 //    MSG(MSG_DEBUG, "buf = ....\n");
     buf = new double[buflen];
     if(!buf){
@@ -91,10 +92,11 @@ dbuffer::dbuffer(const dbuffer& oldbuffer){
 dbuffer::dbuffer(double *oldbuf, unsigned int oldsize, double oldrate, sampleTypes oldtype, sampleUnits oldunit){
     // init to defaults...
     initvars();
-    
+
 //    printf("oldbuf: %p, oldsize: %d, oldrate: %.3f\n", oldbuf, oldsize, oldrate);
-    if(!oldsize || !oldbuf || !oldrate) // do nothing if values are nonsense
+    if(!oldsize || !oldbuf || !oldrate) { // do nothing if values are nonsense
         return;
+    }
 
     samplerate = oldrate;
 
@@ -119,8 +121,9 @@ dbuffer::dbuffer(double *oldbuf, unsigned int oldsize, double oldrate, sampleTyp
 
 
 dbuffer::~dbuffer(){
-    if(planIsValid)
+    if(planIsValid) {
         fftw_destroy_plan(fftPlan);
+    }
     delete [] buf;
 }
 
@@ -129,7 +132,7 @@ dbuffer dbuffer::operator +(const dbuffer &left){
     dbuffer newbuf;
 
 //    printf("&newbuf = %p, &left = %p, this = %p\n", &newbuf, &left, this);
-    
+
     if(left.fill + fill > newbuf.buflen){
         delete [] newbuf.buf;
         newbuf.buf = new double[left.fill + fill];
@@ -139,7 +142,7 @@ dbuffer dbuffer::operator +(const dbuffer &left){
         }
         newbuf.buflen = left.fill + fill;
     }
-    
+
     // copy buffer from first argument
     memcpy(newbuf.buf, buf, sizeof(*buf) * fill);
     // copy buffer from second argument
@@ -160,14 +163,15 @@ dbuffer dbuffer::operator +(const dbuffer &left){
         newbuf.unit = left.unit;
         newbuf.samplerate = left.samplerate;
     }
-        
+
     return newbuf;
 }
 
 dbuffer& dbuffer::operator =(const dbuffer &oldbuffer){
     // avoid copying to self
-    if(&oldbuffer == this)
+    if(&oldbuffer == this) {
         return *this;
+    }
     if(oldbuffer.fill > buflen){
         delete [] buf;
 //        MSG(MSG_DEBUG, "buf = ....\n");
@@ -177,7 +181,7 @@ dbuffer& dbuffer::operator =(const dbuffer &oldbuffer){
             exit(1);
         }
         buflen = oldbuffer.fill;
-        
+
         // plan gets invalid by this relocation
         if(planIsValid){
             MSG(MSG_DEBUG, "FFTW-Plan gets invalid\n");
@@ -186,7 +190,7 @@ dbuffer& dbuffer::operator =(const dbuffer &oldbuffer){
         }
     }
     memcpy(buf, oldbuffer.buf, sizeof(*buf) * oldbuffer.fill);
-    
+
     // FIXME: this is in principle bad, but avoids a recalculate of the plan every time....
     /*
     // plan remains valid if the size of the buffer hasn't changed
@@ -196,7 +200,7 @@ dbuffer& dbuffer::operator =(const dbuffer &oldbuffer){
         planIsValid = false;
     }
     */
-    
+
     // copy over info from old buffer
     fill = oldbuffer.fill;
     type = oldbuffer.type;
@@ -212,15 +216,17 @@ double& dbuffer::operator[](unsigned int index){
 
 double dbuffer::getValue(double time){
     // linear interpolation used
-    
+
     // index left of specified time (rounded down)
     unsigned int i = int(time * samplerate);
 
     // check if index is outside this buffer;
-    if(i > buflen - 1)
-            return INFINITY;
-    if(i == buflen - 1)
+    if(i > buflen - 1) {
+        return INFINITY;
+    }
+    if(i == buflen - 1) {
         return buf[buflen - 1];
+    }
           // y_0  + dy        * dx
     return buf[i] + (buf[i+1] - buf[i]) * (time - i/samplerate) * samplerate;
 }
@@ -237,12 +243,12 @@ std::string dbuffer::getUnitString(){
 
 #ifdef QOSCC_DEBUG
 int dbuffer::dump(FILE *file){
-    
     fprintf(file, "Buffer dump\n------------\n");
     fprintf(file, "Unit: %s\n", getUnitString().c_str());
     fprintf(file, "samples:%d, rate:%6.3f*1/%s\n", fill, samplerate, getTypeString().c_str());
-    for(unsigned int i = 0; i < fill; i++)
+    for(unsigned int i = 0; i < fill; i++) {
         fprintf(file, "%3d, %6.3f, %6.3f\n", i, i / samplerate,  buf[i]);
+    }
 
     return 0;
 }
@@ -265,23 +271,27 @@ void dbuffer::applyFft(){
     case winRect:
         break;
     case winHanning:
-        for(unsigned int i = 0; i < fill; i++)
+        for(unsigned int i = 0; i < fill; i++) {
             buf[i] *= 0.5 - 0.5 * cos(2*i*M_PI/fill);
+        }
         break;
     case winHamming:
-        for(unsigned int i = 0; i < fill; i++)
+        for(unsigned int i = 0; i < fill; i++) {
             buf[i] *= 0.54 - 0.46 * cos(2*i*M_PI/fill);
+        }
         break;
     case winBlackmanHarrisA:
-        for(unsigned int i = 0; i < fill; i++)
+        for(unsigned int i = 0; i < fill; i++) {
             buf[i] *= 0.355768 - 0.487396*cos(2*i*M_PI/fill) + 0.144232*cos(4*i*M_PI/fill) - 0.012604*cos(6*i*M_PI/fill);
+        }
         break;
     case winBlackmanHarrisB:
-        for(unsigned int i = 0; i < fill; i++)
+        for(unsigned int i = 0; i < fill; i++) {
             buf[i] *= 10.0/32 - 15.0/32*cos(2*i*M_PI/fill) + 6.0/32*cos(4*i*M_PI/fill) - 1.0/32*cos(6*i*M_PI/fill);
+        }
         break;
     }
-        
+
     // make plan if it does not exist;
     if(!planIsValid){
         MSG(MSG_DEBUG, "FFTW-Plan recalculated\n");
@@ -297,16 +307,17 @@ void dbuffer::applyFft(){
         delete [] tmp;
         planIsValid = true;
     }
-    
+
     // run....
     fftw_execute(fftPlan);
-    for(unsigned int j = 1; j < fill / 2; j++)
+    for(unsigned int j = 1; j < fill / 2; j++) {
         buf[j] = hypot(buf[j], buf[fill - j])  / fill * 2 / M_SQRT2;
+    }
     // scale the first and last buffer item
     buf[0] /= fill; 
     // FIXME: is there sth wrong???? the last sample looks strange in the scope....
     buf[fill/2] /= fill * M_SQRT2;
-    
+
     // we changed the type to frequency domain
     type = f;
     // and the "samplerate" to 1/Hz
@@ -332,4 +343,3 @@ void dbuffer::setSize(unsigned int newsize){ // set buffer to specified size
     }
     fill = newsize;
 }
-

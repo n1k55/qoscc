@@ -48,8 +48,9 @@ dspJACK::dspJACK() {
 
 
 dspJACK::~dspJACK() {
-    if(jackdRunning)
+    if(jackdRunning) {
         jack_client_close(client);
+    }
 
     pthread_cond_destroy(&data_ready);
     pthread_mutex_destroy(&data_ready_lock);
@@ -57,11 +58,12 @@ dspJACK::~dspJACK() {
 
 
 int dspJACK::openDevice() {
-    if(running)
+    if(running) {
         return 0;
-    if(!jackdRunning)
+    }
+    if(!jackdRunning) {
         return -1;
-
+    }
 
     // get the buffer array and init it.
     buffer = new jack_default_audio_sample_t*[channels];
@@ -102,8 +104,9 @@ int dspJACK::openDevice() {
 }
 
 int dspJACK::closeDevice() {
-    if(!jackdRunning)
+    if(!jackdRunning) {
         return -1;
+    }
 
     if(running) {
         // deactivate client
@@ -146,8 +149,9 @@ int dspJACK::type() {
 }
 
 int dspJACK::readdsp(dbuffer *buf) {
-    if(!running)
+    if(!running) {
         return -1;
+    }
 
     // wait till data is ready...
     pthread_mutex_lock(&data_ready_lock);
@@ -160,10 +164,11 @@ int dspJACK::readdsp(dbuffer *buf) {
 
     for(unsigned int ch = 0; ch < channels; ch++){
         buf[ch].setSize(frames);
-	buf[ch].setUnit(dbuffer::vdc);
-	buf[ch].setType(dbuffer::t);	
-        for(unsigned int i = 0; i < frames; i++)
+        buf[ch].setUnit(dbuffer::vdc);
+        buf[ch].setType(dbuffer::t);
+        for(unsigned int i = 0; i < frames; i++) {
             buf[ch][i] = double(buffer[ch][i] * adjust);
+        }
     }
 
     pthread_mutex_unlock(&data_ready_lock);
@@ -171,8 +176,9 @@ int dspJACK::readdsp(dbuffer *buf) {
 }
 
 int dspJACK::setChannels(unsigned int n) {
-    if(!n)
+    if(!n) {
         return -1;
+}
     if(!running) {
         channels = n;
         return 0;
@@ -231,8 +237,9 @@ void dspJACK::getDspNameList(stringlist *liste) {
 }
 
 int dspJACK::jack_process(jack_nframes_t nframes, void *arg) {
-    if(!((dspJACK*)arg)->isRunning())
+    if(!((dspJACK*)arg)->isRunning()) {
         return 0;
+}
     jack_default_audio_sample_t *out;
 
     //    printf("dspJACK::jack_process(), nframes = %d\n", nframes);

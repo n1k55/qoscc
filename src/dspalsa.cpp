@@ -41,8 +41,9 @@ dspALSA::dspALSA() {
             snd_pcm_info_set_device(pcm_info, dev);
             snd_pcm_info_set_subdevice(pcm_info, 0);
             snd_pcm_info_set_stream(pcm_info, SND_PCM_STREAM_CAPTURE);
-            if(snd_ctl_pcm_info(ctl, pcm_info)<0)
+            if(snd_ctl_pcm_info(ctl, pcm_info)<0) {
                 continue;
+            }
             char device[80];
             sprintf(device, "hw:%d,%d (%s)", card, dev, snd_pcm_info_get_name(pcm_info));
             devicelist.addString(device);
@@ -55,14 +56,16 @@ dspALSA::dspALSA() {
 }
 
 dspALSA::~dspALSA() {
-    if(running)
+    if(running) {
         closeDevice();
+    }
     snd_pcm_hw_params_free(hwparams);
 }
 
 int dspALSA::openDevice() {
-    if(running)
+    if(running) {
         return 0;
+    }
 
     if(!dspSize || !dspRate || !channels || !bufferSize) {
         MSG(MSG_WARN, "dspALSA::openDevice(): Device not correctly configured!\n");
@@ -74,8 +77,9 @@ int dspALSA::openDevice() {
     // copy name until the whitespace or the backets
     std::string devname;
     for(unsigned int i = 0; i < deviceName.size(); i++) {
-        if(deviceName[i] == '(' || deviceName[i] == ' ')
+        if(deviceName[i] == '(' || deviceName[i] == ' ') {
             break;
+        }
         devname += deviceName[i];
     }
 
@@ -174,8 +178,9 @@ int dspALSA::closeDevice() {
 }
 
 int dspALSA::setDeviceName(const std::string& n) {
-    if(n == deviceName)
+    if(n == deviceName) {
         return 0;
+    }
     if(!running) {
         deviceName = n;
         return 0;
@@ -185,13 +190,13 @@ int dspALSA::setDeviceName(const std::string& n) {
     closeDevice();
     openDevice();
 
-
     return -1;
 }
 
 int dspALSA::setDspRate(double n) {
-    if(n == dspRate)
+    if(n == dspRate) {
         return 0;
+    }
 
     if(!running) {
         dspRate = n;
@@ -206,8 +211,9 @@ int dspALSA::setDspRate(double n) {
 }
 
 int dspALSA::setDspSize(int n) {
-    if(unsigned (n) == dspSize)
+    if(unsigned (n) == dspSize) {
         return 0;
+    }
     if(!running) {
         dspSize = n;
         return 0;
@@ -233,8 +239,9 @@ int dspALSA::setDspSize(int n) {
 }
 
 int dspALSA::setChannels(unsigned int n) {
-    if(channels == n)
+    if(channels == n) {
         return 0;
+    }
     if(!running) {
         channels = n;
         return 0;
@@ -246,8 +253,9 @@ int dspALSA::setChannels(unsigned int n) {
 }
 
 void dspALSA::setBufferSize(unsigned int size) {
-    if(size == bufferSize)
+    if(size == bufferSize) {
         return;
+    }
     if(!running) {
         bufferSize = size;
         return;
@@ -262,8 +270,9 @@ int dspALSA::type() {
 }
 
 int dspALSA::readdsp(dbuffer *buf) {
-    if(!running)
+    if(!running) {
         return -1;
+    }
 
     int dsp_bytes;
     int read_samples;
@@ -347,8 +356,9 @@ void dspALSA::getDspSizeList(stringlist *liste) {
 
 void dspALSA::getDspNameList(stringlist *liste) {
     // just copy over our once created list of devices
-    for(unsigned int i = 0; i < devicelist.count(); i++)
+    for(unsigned int i = 0; i < devicelist.count(); i++) {
         liste->addString(devicelist.getString(i));
+    }
 }
 
 int dspALSA::setAdjust(double n) {

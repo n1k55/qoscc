@@ -35,14 +35,15 @@ dspMM::dspMM() {
 }
 
 dspMM::~dspMM() {
-    if(running)
+    if(running) {
         closeDevice();
-
+    }
 }
 
 int dspMM::openDevice() {
-    if(running)
+    if(running) {
         return 0;
+    }
 
     struct termios settings;
 
@@ -100,14 +101,16 @@ int dspMM::openDevice() {
         // test multimeter...
         // flush input buffer
         char dump;
-        while(read(fd, &dump, 1) == 1)
+        while(read(fd, &dump, 1) == 1) {
             ;
+        }
         // send request
         write(fd, "D\n", 2);
         // count returned characters
         int i = 0;
-        while(read(fd, &dump, 1) == 1)
+        while(read(fd, &dump, 1) == 1) {
             i++;
+        }
 
         if(i == 14) {
             printf("using speed %d!\n", speed[si]);
@@ -126,18 +129,21 @@ int dspMM::openDevice() {
 }
 
 int dspMM::closeDevice() {
-    if(!running)
+    if(!running) {
         return 0;
+    }
     running = false;
     return close(fd);
 }
 
 int dspMM::setDeviceName(const std::string& n) {
-    if(n == "")
+    if(n == "") {
         return -1;
+    }
 
-    if(!running)
+    if(!running) {
         deviceName = n;
+    }
 
     closeDevice();
     deviceName = n;
@@ -146,11 +152,11 @@ int dspMM::setDeviceName(const std::string& n) {
 }
 
 int dspMM::setDspRate(double n) {
-    if(n == 0.0)
+    if(n == 0.0) {
         return -1;
-    
-    dspRate = n;
+    }
 
+    dspRate = n;
     return 0;
 }
 
@@ -165,12 +171,14 @@ int dspMM::type() {
 
 int dspMM::readdsp(dbuffer *fbuf) {
     // int read_dmm(int fd,char buf[14])
-    if(!running)
+    if(!running) {
         return -1;
-    
+    }
+
     // check if at least one buffer exists!
-    if(!fbuf)
-	return -1;
+    if(!fbuf) {
+        return -1;
+    }
 
     char buf[14];
     int nbyte;
@@ -189,8 +197,9 @@ int dspMM::readdsp(dbuffer *fbuf) {
     // sleep if elapsed time was smaller than the period time
     if(diffusec > 1.0 / dspRate) {
         usleep((unsigned int)(1000000.0 / dspRate - diffusec + 0.5));
-    } else
+    } else {
         MSG(MSG_WARN, "System is to slow to handle this sampling rate");
+    }
 
     // send request
     write(fd,"D\n",2);
@@ -211,30 +220,33 @@ int dspMM::readdsp(dbuffer *fbuf) {
     // report me types for others.....
     dbuffer::sampleUnits unit = dbuffer::unone;
     if(!strncmp(buf, "DC", 2)){ // DC amp and volt
-	if(buf[12] == 'V')
-	    unit = dbuffer::vdc;
-	else if(buf[12] == 'A')
-	    unit = dbuffer::adc;
-	else
-	    unit = dbuffer::unone;
+        if(buf[12] == 'V') {
+            unit = dbuffer::vdc;
+        } else if(buf[12] == 'A') {
+            unit = dbuffer::adc;
+        } else {
+            unit = dbuffer::unone;
+        }
     }
     else if(!strncmp(buf, "AC", 2)){ // AC amp and volt
-	if(buf[12] == 'V')
-	    unit = dbuffer::vac;
-	else if(buf[12] == 'A')
-	    unit = dbuffer::aac;
-	else
-	    unit = dbuffer::unone;
+        if(buf[12] == 'V') {
+            unit = dbuffer::vac;
+        } else if(buf[12] == 'A') {
+            unit = dbuffer::aac;
+        } else {
+            unit = dbuffer::unone;
+        }
     }
-    else if(!strncmp(buf, "OH", 2)) // Ohms
+    else if(!strncmp(buf, "OH", 2)) { // Ohms
         unit = dbuffer::ohm;
-    else if(!strncmp(buf, "DI", 2)) // Uf in Volts dc
+    } else if(!strncmp(buf, "DI", 2)) { // Uf in Volts dc
         unit = dbuffer::vdc;
-    else if(!strncmp(buf, "TE", 2)) // Temperature in Celsius
+    } else if(!strncmp(buf, "TE", 2)) { // Temperature in Celsius
         unit = dbuffer::celsius;
-    else if(!strncmp(buf, "CA", 2)) // Capacity in Farad
+    } else if(!strncmp(buf, "CA", 2)) { // Capacity in Farad
         unit = dbuffer::farad;
-    
+    }
+
     fbuf[0].setUnit(unit);
 //    printf("%s\n", fbuf[0].getUnitString().c_str());fflush(stdout);    
     
@@ -252,8 +264,9 @@ int dspMM::readdsp(dbuffer *fbuf) {
 int dspMM::setChannels(unsigned int channels) {
     // do nothing. we have one channel!
     // but inform our caller....
-    if(channels != 1)
+    if(channels != 1) {
         return -1;
+    }
     return 0;
 }
 

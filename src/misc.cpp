@@ -23,13 +23,16 @@
 
 double vToDb(double voltage, double reference) {
     // catch senseless cases
-    if(voltage < 0 || reference < 0)
+    if(voltage < 0 || reference < 0) {
         return 0;
+    }
     // catch problematic cases and try to handle them in a sensible way...
-    if(voltage == 0)
+    if(voltage == 0) {
         return -INFINITY;
-    if(reference == 0)
+    }
+    if(reference == 0) {
         return INFINITY;
+    }
     return 8.685889638 * log(voltage / reference); // 20 / log(10) = 8.685....
 }
 
@@ -40,20 +43,21 @@ double dbToV(double dbs, double reference) {
 double stringToNum(const std::string &text) {
     double value = 1.0;
     // check for unit suffixes
-    if((signed)text.find('p') != -1)
+    if((signed)text.find('p') != -1) {
         value /= 1000000000000.0;
-    else if((signed)text.find('n') != -1)
+    } else if((signed)text.find('n') != -1) {
         value /= 1000000000.0;
-    else if((signed)text.find('u') != -1 || (signed)text.find("µ") != -1)
+    } else if((signed)text.find('u') != -1 || (signed)text.find("µ") != -1) {
         value /= 1000000.0;
-    else if((signed)text.find('m') != -1)
+    } else if((signed)text.find('m') != -1) {
         value /= 1000.0;
-    else if((signed)text.find('k') != -1)
+    } else if((signed)text.find('k') != -1) {
         value *= 1000.0;
-    else if((signed)text.find('M') != -1)
+    } else if((signed)text.find('M') != -1) {
         value *= 1000000.0;
-    else if((signed)text.find('G') != -1)
+    } else if((signed)text.find('G') != -1) {
         value *= 1000000000.0;
+    }
 
     // multiply by the value of the string
     // remaining letters are ignored by atof :)
@@ -64,11 +68,13 @@ double stringToNum(const std::string &text) {
 std::string numToString(double value) {
     // limit number to +/- 1*10^21
     // everything else is treated as infinity...
-    if(value > 1000000000000000000000.0)
+    if(value > 1000000000000000000000.0) {
         return "inf ";
+    }
 
-    if(value < -1000000000000000000000.0)
+    if(value < -1000000000000000000000.0) {
         return "-inf ";
+    }
 
     std::string ret;
     if(value != 0.0) { // prevent prefix to a zero..
@@ -101,11 +107,13 @@ std::string numToString(double value) {
 
     // remove trailing zeros
     std::string num = num_temp;
-    while(num[num.length() - 1] == '0')
+    while(num[num.length() - 1] == '0') {
         num.resize(num.length() - 1);
+    }
     // remove a now possible trailing dot (or comma)
-    if(num[num.length() - 1] == '.' || num[num.length() - 1] == ',')
+    if(num[num.length() - 1] == '.' || num[num.length() - 1] == ',') {
         num.resize(num.length() - 1);
+    }
 
     // prepend the converted number to the string
     ret.insert(0, " ");
@@ -115,8 +123,9 @@ std::string numToString(double value) {
 
 void printMessage(const char *file, const char *function, int line, int level, const char *text) {
     std::string levelInfo;
-    if(level < MSG_LEVEL)
+    if(level < MSG_LEVEL) {
         return;
+    }
     FILE *output;
     switch(level) {
     case MSG_NOTICE:
