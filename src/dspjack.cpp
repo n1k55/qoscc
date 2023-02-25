@@ -30,7 +30,7 @@ dspJACK::dspJACK() {
     pthread_mutex_init(&data_ready_lock, nullptr);
 
     // register as client
-    if((client = jack_client_new("QOscC")) == nullptr) {
+    if((client = jack_client_open("QOscC", JackNoStartServer, nullptr)) == nullptr) {
         MSG(MSG_ERROR, "Cannot register as Client. Jackd running?\n");
         jackdRunning = false;
         return;
