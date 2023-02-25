@@ -127,7 +127,7 @@ int dspALSA::openDevice() {
     unsigned int rate = int(dspRate + 0.5);
     if((err = snd_pcm_hw_params_set_rate_near(pcm_handle, hwparams, &rate, nullptr)) < 0) {
         closeDevice();
-        fprintf(stderr, "dspALSA::openDevice(): unable to set sampling rate (%d) for this device (%s)\n", dspRate, snd_strerror(err));
+        fprintf(stderr, "dspALSA::openDevice(): unable to set sampling rate (%f) for this device (%s)\n", dspRate, snd_strerror(err));
         fflush(stderr);
         return -1;
     }
