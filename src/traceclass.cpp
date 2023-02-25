@@ -234,7 +234,7 @@ void TraceClass::setColor(const std::string & newcolor) {
 // void setBufferSize(unsigned int)
 // resize the buffer...
 int TraceClass::setBufferSize(unsigned int newsize) {
-  if(newsize == 0u) {
+  if(newsize == 0U) {
     return -1;
   }
   { //write lock

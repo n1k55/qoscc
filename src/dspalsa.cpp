@@ -67,7 +67,7 @@ int dspALSA::openDevice() {
         return 0;
     }
 
-    if((dspSize == 0u) || (dspRate == 0.0) || (channels == 0u) || (bufferSize == 0u)) {
+    if((dspSize == 0U) || (dspRate == 0.0) || (channels == 0U) || (bufferSize == 0U)) {
         MSG(MSG_WARN, "dspALSA::openDevice(): Device not correctly configured!\n");
         return -1;
     }

@@ -176,7 +176,7 @@ int dspJACK::readdsp(dbuffer *buf) {
 }
 
 int dspJACK::setChannels(unsigned int n) {
-    if(n == 0u) {
+    if(n == 0U) {
         return -1;
 }
     if(!running) {

@@ -66,7 +66,7 @@ int ControllerClass::addDevice(DeviceInterface *newdev) {
         newlist[devnum] = newdev;
 
         // delete old array if it existed
-        if (devnum != 0u) {
+        if (devnum != 0U) {
             delete [] devices;
         }
         // copy back new list
@@ -138,7 +138,7 @@ int ControllerClass::addTrace(TraceInterface *newtrace) {
         newlist[tracenum] = newtrace;
 
         // delete old array if it existed
-        if (tracenum != 0u) {
+        if (tracenum != 0U) {
             delete [] traces;
         }
         // copy back new list
@@ -215,7 +215,7 @@ int ControllerClass::addScope(ScopeInterface *newscope) {
         newlist[scopenum] = newscope;
 
         // delete old array if it existed
-        if(scopenum != 0u) {
+        if(scopenum != 0U) {
             delete [] scopes;
         }
         // copy back new list

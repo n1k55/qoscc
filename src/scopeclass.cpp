@@ -125,7 +125,7 @@ int ScopeClass::addTrace(TraceInterface *newtrace) {
     buf = newbuf;
 
     // delete old array if it existed
-    if(tracenum != 0u) {
+    if(tracenum != 0U) {
         delete [] traces;
     }
     // copy back new list

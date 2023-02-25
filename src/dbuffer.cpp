@@ -94,7 +94,7 @@ dbuffer::dbuffer(double *oldbuf, unsigned int oldsize, double oldrate, sampleTyp
     initvars();
 
 //    printf("oldbuf: %p, oldsize: %d, oldrate: %.3f\n", oldbuf, oldsize, oldrate);
-    if((oldsize == 0u) || (oldbuf == nullptr) || (oldrate == 0.0)) { // do nothing if values are nonsense
+    if((oldsize == 0U) || (oldbuf == nullptr) || (oldrate == 0.0)) { // do nothing if values are nonsense
         return;
     }
 
@@ -152,7 +152,7 @@ dbuffer dbuffer::operator +(const dbuffer &left){
     newbuf.fill = fill + left.fill;
     // take parameters from first argument
     // if it exists
-    if(buflen != 0u){
+    if(buflen != 0U){
         newbuf.type = type;
         newbuf.unit = unit;
         newbuf.samplerate = samplerate;
@@ -262,7 +262,7 @@ void dbuffer::applyFft(){
     }
     // do not run the fft if there is no data
     // this could lead to errors in fftw.
-    if(fill == 0u){
+    if(fill == 0U){
         return;
     }
 
