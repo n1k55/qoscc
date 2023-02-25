@@ -53,7 +53,7 @@ void QOscCWindow::createControls() {
     controller->getScopeList(&scopeliste);
     for(unsigned int i = 0; i < scopeliste.count(); i++) {
         //TOFIX needs list of views for Scopes here , instead of nullptr when creating ScopeControl
-        ScopeControl *scopectl = new ScopeControl(controller->getScope(scopeliste.getString(i)),nullptr, controller, groups, "scope");
+        auto *scopectl = new ScopeControl(controller->getScope(scopeliste.getString(i)),nullptr, controller, groups, "scope");
         QString title = QString(tr("Scope %1")).arg(QString::fromStdString(scopeliste.getString(i)));
         groups->addTab(scopectl, title);
         connect(this, SIGNAL(hasChanged()), scopectl, SLOT(update()));
@@ -66,7 +66,7 @@ void QOscCWindow::createControls() {
     controller->getDeviceList(&deviceliste);
     // create controls for devices
     for(unsigned int i = 0; i < deviceliste.count(); i++) {
-        DeviceControl *devctl = new DeviceControl(controller->getDevice(deviceliste.getString(i)), controller, groups, "device");
+        auto *devctl = new DeviceControl(controller->getDevice(deviceliste.getString(i)), controller, groups, "device");
         QString title = QString(tr("Device %1")).arg(QString::fromStdString(deviceliste.getString(i)));
         groups->addTab(devctl, title);
         connect(this, SIGNAL(hasChanged()), devctl, SLOT(update()));
@@ -80,7 +80,7 @@ void QOscCWindow::createControls() {
     controller->getTraceList(&traceliste);
     // create controls for traces
     for(unsigned int i = 0; i < traceliste.count(); i++) {
-        TraceControl *tracectl = new TraceControl(controller->getTrace(traceliste.getString(i)), controller, groups, "trace");
+        auto *tracectl = new TraceControl(controller->getTrace(traceliste.getString(i)), controller, groups, "trace");
         QString title = QString(tr("Trace %1")).arg(QString::fromStdString(traceliste.getString(i)));
         groups->addTab(tracectl, title);
         connect(this, SIGNAL(hasChanged()), tracectl, SLOT(update()));
@@ -188,13 +188,13 @@ void QOscCWindow::addDevice() {
         }
     } while(!ok);
 
-    DeviceClass *newdevice = new DeviceClass(controller);
+    auto *newdevice = new DeviceClass(controller);
 
     newdevice->setname(name.toLatin1().toStdString());
 
     controller->addDevice(newdevice);
 
-    DeviceControl *devctl = new DeviceControl(newdevice, controller, groups, name.toStdString());
+    auto *devctl = new DeviceControl(newdevice, controller, groups, name.toStdString());
     groups->addTab(devctl, QString(tr("Device ")) + name);
     groups->hide();
     // select this page. it is the last available.
@@ -231,17 +231,17 @@ void QOscCWindow::addScope() {
     } while(!ok);
 
     // add scope
-    ScopeClass *newscope  = new ScopeClass(controller );
+    auto *newscope  = new ScopeClass(controller );
     newscope->setName(name.toStdString());
     controller->addScope(newscope);
 
     //create new ScopeView
     //ToFix add newscopeview in some list
     //ToFix parameter name in constructor?
-    ScopeView *newscopeview = new ScopeView(newscope, this);
+    auto *newscopeview = new ScopeView(newscope, this);
 
     // add control
-    ScopeControl *scopectl = new ScopeControl(newscope, newscopeview, controller, groups, "scope");
+    auto *scopectl = new ScopeControl(newscope, newscopeview, controller, groups, "scope");
     QString title = QString(tr("Scope ")) + name;
     groups->addTab(scopectl, title);
     groups->hide();
@@ -280,12 +280,12 @@ void QOscCWindow::addTrace() {
     } while(!ok);
 
     // add trace
-    TraceClass *newtrace  = new TraceClass(controller);
+    auto *newtrace  = new TraceClass(controller);
     newtrace->setname(name.toStdString());
     controller->addTrace(newtrace);
 
     // add control
-    TraceControl *tracectl = new TraceControl(newtrace, controller, groups, "trace");
+    auto *tracectl = new TraceControl(newtrace, controller, groups, "trace");
     QString title = QString(tr("Trace ")) + name;
     groups->addTab(tracectl, title);
     groups->hide();

@@ -296,7 +296,7 @@ void dbuffer::applyFft(){
     if(!planIsValid){
         MSG(MSG_DEBUG, "FFTW-Plan recalculated\n");
         // uuugh, fftw_plan destroys data, so tmp them......
-        double *tmp = new double[fill];
+        auto *tmp = new double[fill];
         if(tmp == nullptr){
             MSG(MSG_ERROR, "Could not allocate memory!\n");
             exit(1);

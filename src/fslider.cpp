@@ -32,7 +32,7 @@ fSlider::fSlider(const  QString name, QWidget *parent) : QGroupBox(name, parent)
 
     slider = new QSlider( this );
     textval = new QLineEdit( this );
-    QHBoxLayout *hbox = new QHBoxLayout(this);
+    auto *hbox = new QHBoxLayout(this);
 
     textval->setMinimumWidth(80);
     textval->setMaximumWidth(80);

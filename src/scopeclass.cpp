@@ -114,7 +114,7 @@ int ScopeClass::addTrace(TraceInterface *newtrace) {
 
     // add a new buffer pointer
 
-    dbuffer *newbuf = new dbuffer[tracenum + 1];
+    auto *newbuf = new dbuffer[tracenum + 1];
 
     //unsigned int *newbuflen = new unsigned int[tracenum + 1];
     for(unsigned int i = 0; i < tracenum; i++) {

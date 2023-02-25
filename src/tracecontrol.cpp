@@ -59,9 +59,9 @@ TraceControl::TraceControl(TraceInterface *n, ControllerClass* parentController,
 
     // context menu
     miscOptsMenu = new QMenu("traceMiscOptsMenu" ,this);
-    QAction* setNameAction = new QAction("&Set Name", this);
-    QAction* deleteTraceAction = new QAction("&Delete trace", this);
-    QAction* setColorAction = new QAction("Set Color", this);
+    auto* setNameAction = new QAction("&Set Name", this);
+    auto* deleteTraceAction = new QAction("&Delete trace", this);
+    auto* setColorAction = new QAction("Set Color", this);
 
     connect(setNameAction, SIGNAL(triggered()), this, SLOT(getName()));
     connect(deleteTraceAction, SIGNAL(triggered()), this, SLOT(suicide()));
@@ -72,11 +72,11 @@ TraceControl::TraceControl(TraceInterface *n, ControllerClass* parentController,
     miscOptsMenu->addSeparator();
     miscOptsMenu->addAction(setColorAction);
 
-    QPushButton *btnPopupMenu = new QPushButton(tr("Settings"), this);
+    auto *btnPopupMenu = new QPushButton(tr("Settings"), this);
     connect(btnPopupMenu, SIGNAL(clicked()), SLOT(showMiscOptsMenu()));
 
     // parent selector
-    QGroupBox *parentSel = new QGroupBox(tr("Device and Channel"), this);
+    auto *parentSel = new QGroupBox(tr("Device and Channel"), this);
     parentList = new QComboBox(parentSel);
     parentChannel = new QComboBox(parentSel);
     connect(parentList, SIGNAL(highlighted(const QString &)), SLOT(setParentDevice(const QString &)));
@@ -94,7 +94,7 @@ TraceControl::TraceControl(TraceInterface *n, ControllerClass* parentController,
     sldYPos->setTitle(tr("Y-Position (DIVS)"));
     connect(sldYPos, SIGNAL(valueChanged(float)), SLOT(setYPos(float)));
 
-    QGroupBox *box = new QGroupBox(tr("FFT Windowing"), this);
+    auto *box = new QGroupBox(tr("FFT Windowing"), this);
     fftWin = new QComboBox(box);
     fftWin->addItem(tr("Rectangular"), dbuffer::winRect);
     fftWin->addItem(tr("Hanning"), dbuffer::winHanning);
@@ -116,7 +116,7 @@ TraceControl::TraceControl(TraceInterface *n, ControllerClass* parentController,
     bufferSize->addItem("500 ms");
     bufferSize->addItem("1 s");
     bufferSize->addItem("5 s");
-    QPushButton *btnApplyBuffersize = new QPushButton(tr("Set buffersize"), box);
+    auto *btnApplyBuffersize = new QPushButton(tr("Set buffersize"), box);
     connect(btnApplyBuffersize, SIGNAL(clicked()), SLOT(setBuffersize()));
     btnApplyBuffersize->setToolTip(tr("Applying the buffersize. This may take a while"));
 
@@ -323,7 +323,7 @@ void TraceControl::setPerfectBuffer(bool) {
 }
 
 void TraceControl::setFftWin(int index){
-    dbuffer::fftWinType type = (dbuffer::fftWinType)index;
+    auto type = (dbuffer::fftWinType)index;
     trace->setFftWinType(type);
 }
 

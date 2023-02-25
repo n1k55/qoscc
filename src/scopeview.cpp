@@ -137,7 +137,7 @@ void ScopeView::triggerRedrawScope() {
     //ToFix lock()
         ;
     //    printf("scope (%s) redraw triggered\n", name.c_str()); fflush(stdout);
-    QEvent *e = new QEvent(QEvent::User);
+    auto *e = new QEvent(QEvent::User);
     QApplication::postEvent(this, e);
     //ToFix unlock();
 }

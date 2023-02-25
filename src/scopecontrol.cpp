@@ -54,14 +54,14 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     thisscope = scope;
 
     miscOptsMenu = new QMenu("scopeMiscOptsMenu",this);
-    QAction *set_name = new QAction("Set name",this);
-    QAction *delete_scope = new QAction("Delete scope",this);
-    QAction *export_data = new QAction("Export data",this);
-    QAction *set_grid_color = new QAction("Set grid color",this);
-    QAction *set_mark_color = new QAction("Set mark color",this);
-    QAction *set_background_color = new QAction("Set background color",this);
-    QAction *set_text_color = new QAction("Set text color",this);
-    QAction *set_scope_font = new QAction("Set scope font",this);
+    auto *set_name = new QAction("Set name",this);
+    auto *delete_scope = new QAction("Delete scope",this);
+    auto *export_data = new QAction("Export data",this);
+    auto *set_grid_color = new QAction("Set grid color",this);
+    auto *set_mark_color = new QAction("Set mark color",this);
+    auto *set_background_color = new QAction("Set background color",this);
+    auto *set_text_color = new QAction("Set text color",this);
+    auto *set_scope_font = new QAction("Set scope font",this);
 
     connect(set_name, SIGNAL(triggered()), this, SLOT(setScopeName()));
     connect(delete_scope, SIGNAL(triggered()), this, SLOT(suicide()));
@@ -84,11 +84,11 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     miscOptsMenu->addSeparator();
     miscOptsMenu->addAction(set_scope_font);
 
-    QPushButton *btnPopupMenu = new QPushButton(tr("Settings"), this);
+    auto *btnPopupMenu = new QPushButton(tr("Settings"), this);
     connect(btnPopupMenu, SIGNAL(clicked()), SLOT(showMiscOptsMenu()));
 
     // radio-buttons for selecting mode
-    QButtonGroup *modebox = new QButtonGroup( this );
+    auto *modebox = new QButtonGroup( this );
     //tr("Mode"),
     modebox->setExclusive(true);
     mode_none = new QRadioButton(tr("none"), this);
@@ -101,7 +101,7 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     connect(mode_fft,  SIGNAL(clicked()), SLOT(setModeFft()));
 
     // Trace list
-    QGroupBox *traceListBox = new QGroupBox(tr("Available Traces"), this);
+    auto *traceListBox = new QGroupBox(tr("Available Traces"), this);
     tracelist = new QListWidget(traceListBox); //"traceListBox"
     // Allow selection of multiple traces
     tracelist->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -193,9 +193,9 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     // trigger section
     triggerbox = new QGroupBox(tr("Trigger"), this );
 
-    QHBoxLayout *miscoptsLayout = new QHBoxLayout;
+    auto *miscoptsLayout = new QHBoxLayout;
 
-    QButtonGroup *tedgebox = new QButtonGroup(this);
+    auto *tedgebox = new QButtonGroup(this);
 
     tedgebox->setExclusive(true);
 
@@ -215,8 +215,8 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     connect(btnTedgePositive,  SIGNAL(clicked()), SLOT(setTedgePositive()));
     connect(btnTedgeNegative, SIGNAL(clicked()), SLOT(setTedgeNegative()));
 
-    QGroupBox *trgSrcBox = new QGroupBox(tr("Source"), this);
-    QHBoxLayout *trgSrcBoxLayout = new QHBoxLayout;
+    auto *trgSrcBox = new QGroupBox(tr("Source"), this);
+    auto *trgSrcBoxLayout = new QHBoxLayout;
     // "Triggersource"
     triggerSource = new QComboBox(this);
     trgSrcBoxLayout->addWidget(triggerSource);
@@ -234,11 +234,11 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
 
     // XY-Mode trace selection
     globalXYBox = new QGroupBox(tr("YX - Settings"), this);
-    QVBoxLayout* globalXYBoxLayout = new QVBoxLayout;
-    QLabel* sourceX = new QLabel(tr("Source X"), this);
+    auto* globalXYBoxLayout = new QVBoxLayout;
+    auto* sourceX = new QLabel(tr("Source X"), this);
     lstXTrace = new QComboBox(this);
     connect(lstXTrace, SIGNAL(activated(const QString&)), SLOT(setXSource(const QString&)));
-    QLabel* sourceY = new QLabel(tr("Source Y"), this);
+    auto* sourceY = new QLabel(tr("Source Y"), this);
     lstYTrace = new QComboBox(this);
     connect(lstYTrace, SIGNAL(activated(const QString&)), SLOT(setYSource(const QString&)));
     globalXYBoxLayout->addWidget(sourceX);
@@ -248,8 +248,8 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     globalXYBox->setLayout(globalXYBoxLayout);
 
     // misc. info
-    QGroupBox *groupMisc = new QGroupBox(tr("Display information on trace:"), this);
-    QVBoxLayout *groupMiscLayout = new QVBoxLayout;
+    auto *groupMisc = new QGroupBox(tr("Display information on trace:"), this);
+    auto *groupMiscLayout = new QVBoxLayout;
     infoTrace = new QComboBox(this);
     groupMiscLayout->addWidget(infoTrace);
     groupMisc->setLayout(groupMiscLayout);
@@ -852,7 +852,7 @@ void ScopeControl::showMiscOptsMenu() {
 // void saveDataFile()
 // store displayed data to file
 void ScopeControl::saveDataFile() {
-    DataStoreDialog *dl = new DataStoreDialog(this);
+    auto *dl = new DataStoreDialog(this);
     
     // set default values.... (visible data at optimum sampling rate)
     switch(thisscope->getMode()){

@@ -51,17 +51,17 @@ DeviceControl::DeviceControl(DeviceInterface *n, ControllerClass* parentControll
 
     // misc options context menu
     miscOptsMenu = new QMenu("deviceMiscOptsMenu",this);
-    QAction* setNameAction = new QAction("&Set Name", this);
-    QAction* deleteDeviceAction = new QAction("&Delete device", this);
+    auto* setNameAction = new QAction("&Set Name", this);
+    auto* deleteDeviceAction = new QAction("&Delete device", this);
     connect(setNameAction, SIGNAL(triggered()), this, SLOT(getName()));
     connect(deleteDeviceAction, SIGNAL(triggered()), this, SLOT(suicide()));
     miscOptsMenu->addAction(setNameAction);
     miscOptsMenu->addAction(deleteDeviceAction);
 
-    QPushButton *btnPopupMenu = new QPushButton(tr("Settings"), this);
+    auto *btnPopupMenu = new QPushButton(tr("Settings"), this);
     connect(btnPopupMenu, SIGNAL(clicked()), SLOT(showMiscOptsMenu()));
 
-    QGroupBox *box = new QGroupBox(tr("DSP Type"), this);
+    auto *box = new QGroupBox(tr("DSP Type"), this);
     dspType = new QComboBox(box);
     // the sequence of these inserts MUST be in order of the list in dspcommon.h
     dspType->addItem(tr("None"), PCM_NONE);
@@ -71,7 +71,7 @@ DeviceControl::DeviceControl(DeviceInterface *n, ControllerClass* parentControll
     dspType->addItem(tr("Serial Multimeter"), PCM_MM);
 
     box = new QGroupBox(tr("DSP Parameters"), this);
-    QGroupBox *dspparam = new QGroupBox(tr("Sample rate"), box);
+    auto *dspparam = new QGroupBox(tr("Sample rate"), box);
     dspRates = new QComboBox(dspparam);
     dspparam = new QGroupBox(tr("Sample Size"), box);
     dspSizes = new QComboBox(dspparam);
@@ -85,12 +85,12 @@ DeviceControl::DeviceControl(DeviceInterface *n, ControllerClass* parentControll
 
     box = new QGroupBox(tr("Status"), this);
     status = new QLabel(tr("Idle"), box);
-    QPushButton *btnStart = new QPushButton(tr("Start"), box);
+    auto *btnStart = new QPushButton(tr("Start"), box);
     connect(btnStart, SIGNAL(clicked()), SLOT(tryStart()));
 
     box = new QGroupBox(tr("Buffersize"), this);
     bufferSize = new QComboBox(box);
-    QPushButton *btnSetBufferSize = new QPushButton(tr("Apply"), box);
+    auto *btnSetBufferSize = new QPushButton(tr("Apply"), box);
     connect(btnSetBufferSize, SIGNAL(clicked()), SLOT(setBufferSize()));
     bufferSize->addItem("10 ms");
     bufferSize->addItem("100 ms");
@@ -102,11 +102,11 @@ DeviceControl::DeviceControl(DeviceInterface *n, ControllerClass* parentControll
     // Adjust value line and button
     box = new QGroupBox(tr("Adjust value"), this);
     adjust = new QLineEdit(box);
-    QPushButton *btnSetAdjust = new QPushButton(tr("Apply"), box);
+    auto *btnSetAdjust = new QPushButton(tr("Apply"), box);
     connect(btnSetAdjust, SIGNAL(clicked()), SLOT(setAdjust()));
     adjust->setToolTip(tr("The input signal is multiplied by that value to obtain correct level readings"));
 
-    QTimer *dynamicUpdateTimer = new QTimer(this); //DynamicUpdateTimer-Device
+    auto *dynamicUpdateTimer = new QTimer(this); //DynamicUpdateTimer-Device
     dynamicUpdateTimer->start(100);
 
     connect(dynamicUpdateTimer, SIGNAL(timeout()), SLOT(updateStatus()));
