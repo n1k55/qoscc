@@ -37,7 +37,7 @@ public:
         ScopeView* view,
         ControllerClass* parentController,
         QTabWidget *parent = 0,
-        const std::string = ""
+        std::string = ""
         );
     ~ScopeControl();
 

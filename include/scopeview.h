@@ -30,7 +30,7 @@ public:
   void setMouseY(unsigned int);
   int getScreenPos(double);
 
-  bool update(const int value) override;
+  bool update(int value) override;
 
   std::string getGridCol();
   std::string getBCol();
