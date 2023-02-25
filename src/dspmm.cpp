@@ -137,7 +137,7 @@ int dspMM::closeDevice() {
 }
 
 int dspMM::setDeviceName(const std::string& n) {
-    if(n == "") {
+    if(n.empty()) {
         return -1;
     }
 
