@@ -36,9 +36,7 @@ DataStoreDialog::DataStoreDialog(QWidget *parent)
 }
 
 
-DataStoreDialog::~DataStoreDialog(){
-
-}
+DataStoreDialog::~DataStoreDialog()= default;
 
 
 void  DataStoreDialog::changedStart( const QString & t )

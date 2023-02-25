@@ -60,7 +60,7 @@ fSlider::fSlider(const  QString name, QWidget *parent) : QGroupBox(name, parent)
     setLayout(hbox);
 }
 
-fSlider::~fSlider() {}
+fSlider::~fSlider() = default;
 
 void fSlider::intValueChanges(int ival) {
     float newval;

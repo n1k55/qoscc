@@ -26,7 +26,7 @@ dspCommon::dspCommon() {
     adjust = 1.0;
 }
 
-dspCommon::~dspCommon() {}
+dspCommon::~dspCommon() = default;
 
 bool dspCommon::isRunning() const {
     return running;

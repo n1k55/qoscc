@@ -258,7 +258,7 @@ ScopeControl::ScopeControl(ScopeInterface *scope,
     updateLocal();
 }
 
-ScopeControl::~ScopeControl() {}
+ScopeControl::~ScopeControl() = default;
 
 void ScopeControl::setColGrid() {
     QColor col;

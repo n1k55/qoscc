@@ -15,10 +15,10 @@
 #include "stringlist.h"
 #include "dbuffer.h"
 
-dspNONE::dspNONE() {}
+dspNONE::dspNONE() = default;
 
 
-dspNONE::~dspNONE() {}
+dspNONE::~dspNONE() = default;
 
 
 int dspNONE::openDevice() {

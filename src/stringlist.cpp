@@ -15,15 +15,13 @@
 #include <cstdio>
 #include <stdexcept>
 
-stringlist::stringlist() {
-}
+stringlist::stringlist() = default;
 
 // copy constructor
 stringlist::stringlist(const stringlist &oldlist) {
 }
 
-stringlist::~stringlist() {
-}
+stringlist::~stringlist() = default;
 
 // string getString(unsigned int)
 // return string of given index

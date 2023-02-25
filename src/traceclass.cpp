@@ -37,7 +37,7 @@ TraceClass::TraceClass(ControllerClass* _parentController)
 {
 }
 
-TraceClass::~TraceClass() {}
+TraceClass::~TraceClass() = default;
 
 // dump()
 // print out all internal stored values
