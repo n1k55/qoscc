@@ -10,7 +10,8 @@ WIP:
 - refactor old code with circular dependencies
 
 TODO:
-- get rid of handcrafted stringlist
+- get rid of handcrafted stringlist;
+- unify locks usage;
 
 
 History
