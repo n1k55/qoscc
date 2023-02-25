@@ -42,7 +42,7 @@ class TraceControl : public QGroupBox  {
 
 public:
     TraceControl(TraceInterface *n, ControllerClass* parentController, QWidget *parent=nullptr, std::string=nullptr);
-    ~TraceControl();
+    ~TraceControl() override;
 public slots:
     void update();
 

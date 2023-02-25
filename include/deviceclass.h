@@ -17,41 +17,41 @@ public:
     DeviceClass(ControllerClass* _parentController);
     ~DeviceClass();
 
-    void dump(FILE *file);
+    void dump(FILE *file) override;
 
-    int start();   // open device and start reading
-    int stop();    // close device and stop reading
-    int setDspSize(int);
-    int getDspSize();
+    int start() override;   // open device and start reading
+    int stop() override;    // close device and stop reading
+    int setDspSize(int) override;
+    int getDspSize() override;
 
-    std::string getName();
-    void setname(std::string);
-    std::string getdevname();
-    void setdevname(std::string);
+    std::string getName() override;
+    void setname(std::string) override;
+    std::string getdevname() override;
+    void setdevname(std::string) override;
 
-    unsigned int getChNum();
+    unsigned int getChNum() override;
 
-    void setBuffersize(unsigned int);
-    int setChannels(unsigned int);
-    int setDspRate(double);
-    double getAdjust();
+    void setBuffersize(unsigned int) override;
+    int setChannels(unsigned int) override;
+    int setDspRate(double) override;
+    double getAdjust() override;
 
-    unsigned int getBuffersize();
-    unsigned int getChannels();
-    double getDspRate();
-    int getDspType();
+    unsigned int getBuffersize() override;
+    unsigned int getChannels() override;
+    double getDspRate() override;
+    int getDspType() override;
 
-    void getDspChannelList(stringlist *);
-    void getDspRateList(stringlist *);
-    void getDspSizeList(stringlist *);
-    void getDspNameList(stringlist *);
+    void getDspChannelList(stringlist *) override;
+    void getDspRateList(stringlist *) override;
+    void getDspSizeList(stringlist *) override;
+    void getDspNameList(stringlist *) override;
 
-    void run();
+    void run() override;
 
-    int setDeviceType(int);
-    int setAdjust(double);
+    int setDeviceType(int) override;
+    int setAdjust(double) override;
 
-    bool isRunning();
+    bool isRunning() override;
 private:
     ControllerClass* parentController;
     dspCommon *dsp;

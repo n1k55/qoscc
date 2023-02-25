@@ -17,7 +17,7 @@ class QOscCWindow : public QMainWindow
 
 public:
     explicit QOscCWindow(QWidget *parent = nullptr);
-    ~QOscCWindow();
+    ~QOscCWindow() override;
 
     void initActions();
     void initMenuBar();

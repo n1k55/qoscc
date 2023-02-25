@@ -16,37 +16,37 @@ public:
   ~TraceClass();
   TraceClass(const TraceClass&) = delete; // block copying
 
-  void dump(FILE *file);
+  void dump(FILE *file) override;
 
-  std::string getName();
-  void setname(std::string newname);
-  int setParentName(std::string newname);
-  std::string getParentName();
-  DeviceInterface *getParent();
+  std::string getName() override;
+  void setname(std::string newname) override;
+  int setParentName(std::string newname) override;
+  std::string getParentName() override;
+  DeviceInterface *getParent() override;
 
-  void recalc_stringrefs();
+  void recalc_stringrefs() override;
 
-  int setBuffer(const dbuffer&);
-  const dbuffer& getFBuf();
-  const dbuffer& getTBuf();
+  int setBuffer(const dbuffer&) override;
+  const dbuffer& getFBuf() override;
+  const dbuffer& getTBuf() override;
 
-  double getXShift();
-  double getYShift();
-  unsigned int getDevChannel();
-  std::string getColor();
-  unsigned int getBufferSize();
-  bool getPerfectBuffer();
-  double getDc();
-  dbuffer::fftWinType getFftWinType();
+  double getXShift() override;
+  double getYShift() override;
+  unsigned int getDevChannel() override;
+  std::string getColor() override;
+  unsigned int getBufferSize() override;
+  bool getPerfectBuffer() override;
+  double getDc() override;
+  dbuffer::fftWinType getFftWinType() override;
 
-  void setYZoom(double);
-  void setXShift(double);
-  void setYShift(double);
-  void setDevChannel(unsigned int newchannel);
-  void setColor(const std::string & newcolor);
-  int setBufferSize(unsigned int);
-  void setPerfectBuffer(bool enablePerfectBuffer);
-  void setFftWinType(dbuffer::fftWinType);
+  void setYZoom(double) override;
+  void setXShift(double) override;
+  void setYShift(double) override;
+  void setDevChannel(unsigned int newchannel) override;
+  void setColor(const std::string & newcolor) override;
+  int setBufferSize(unsigned int) override;
+  void setPerfectBuffer(bool enablePerfectBuffer) override;
+  void setFftWinType(dbuffer::fftWinType) override;
 
 private:
   ControllerClass* parentController;

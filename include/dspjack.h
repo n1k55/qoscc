@@ -25,27 +25,27 @@ class dspJACK : public dspCommon {
 public:
     dspJACK();
 
-    ~dspJACK();
+    ~dspJACK() override;
 
-    int openDevice();
-    int closeDevice();
-    int setDeviceName(const std::string&);
-    int setDspRate(double);
-    int setDspSize(int);
-    int type();
-    int readdsp(dbuffer *);
-    int setChannels(unsigned int channels);
-    void setBufferSize(unsigned int size);
-    int setAdjust(double);
+    int openDevice() override;
+    int closeDevice() override;
+    int setDeviceName(const std::string&) override;
+    int setDspRate(double) override;
+    int setDspSize(int) override;
+    int type() override;
+    int readdsp(dbuffer *) override;
+    int setChannels(unsigned int channels) override;
+    void setBufferSize(unsigned int size) override;
+    int setAdjust(double) override;
 
     unsigned int getChannels();
     double getDspRate();
     unsigned int getDspSize();
 
-    void getDspChannelList(stringlist *);
-    void getDspRateList(stringlist *);
-    void getDspSizeList(stringlist *);
-    void getDspNameList(stringlist *liste);
+    void getDspChannelList(stringlist *) override;
+    void getDspRateList(stringlist *) override;
+    void getDspSizeList(stringlist *) override;
+    void getDspNameList(stringlist *liste) override;
 
     // oooh, shit. these have to be public because the
     // processing (callback) functions have to be able

@@ -36,7 +36,7 @@ class DeviceControl : public QGroupBox  {
 
 public:
     DeviceControl(DeviceInterface *n, ControllerClass* parentController, QTabWidget *parent=nullptr, std::string name="");
-    ~DeviceControl();
+    ~DeviceControl() override;
 signals:
     void hasChanged();
     void setStatus(const QString & text);

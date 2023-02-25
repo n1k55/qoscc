@@ -19,7 +19,7 @@ class ScopeView : public QWidget, public ScopeObserver
   Q_OBJECT
 public:  
   ScopeView(ScopeInterface* _modelScope, QWidget *parent = nullptr, const char *name = nullptr);
-  ~ScopeView();
+  ~ScopeView() override;
   ScopeView(const ScopeView&) = delete;
 
   void triggerRedrawScope();
@@ -45,10 +45,10 @@ public:
 private:
   ScopeInterface* modelScope;
   
-  void mousePressEvent(QMouseEvent *e);
-  void resizeEvent(QResizeEvent *e);
-  void paintEvent(QPaintEvent *e);
-  bool event(QEvent *e); 
+  void mousePressEvent(QMouseEvent *e) override;
+  void resizeEvent(QResizeEvent *e) override;
+  void paintEvent(QPaintEvent *e) override;
+  bool event(QEvent *e) override; 
 
   inline void drawmark(int x, int y);
   inline void draw_triglvl(int trace);

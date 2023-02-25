@@ -39,7 +39,7 @@ public:
         QTabWidget *parent = nullptr,
         std::string = ""
         );
-    ~ScopeControl();
+    ~ScopeControl() override;
 
 public slots:
     void update();

@@ -19,98 +19,98 @@ public:
   ~ScopeClass();  
   ScopeClass(const ScopeClass&) = delete;
 
-  std::string getName();
-  int setName(const std::string &);
+  std::string getName() override;
+  int setName(const std::string &) override;
 
   double getfreq(int);
   double gettime(int);
   double getValue(int y);
 
 
-  int addTrace(TraceInterface *);
+  int addTrace(TraceInterface *) override;
 
-  void dump(FILE *file);
+  void dump(FILE *file) override;
 
   unsigned int getTraceNum() const;
 
-  void setHeight(int);
-  void setWidth(int);
-  void setXPos(int);
-  void setYPos(int);
+  void setHeight(int) override;
+  void setWidth(int) override;
+  void setXPos(int) override;
+  void setYPos(int) override;
 
-  TraceInterface *getTrace(const char *);
-  TraceInterface *getTrace(const std::string &);
-  TraceInterface *getTrace(unsigned int);
+  TraceInterface *getTrace(const char *) override;
+  TraceInterface *getTrace(const std::string &) override;
+  TraceInterface *getTrace(unsigned int) override;
 
-  int removeTrace(TraceInterface *);
-  int removeTrace(const std::string &);
+  int removeTrace(TraceInterface *) override;
+  int removeTrace(const std::string &) override;
 
   double calcx(int, int); 
 
-  int setTriggerSource(std::string);
-  void recalc_stringrefs();
-  int setXYSourceX(std::string);
-  int setXYSourceY(std::string);
-  std::string getTriggerName();
-  std::string getXYSourceXName();
-  std::string getXYSourceYName();
-  void getTraceList(stringlist *);
-  bool triggerLocked();
+  int setTriggerSource(std::string) override;
+  void recalc_stringrefs() override;
+  int setXYSourceX(std::string) override;
+  int setXYSourceY(std::string) override;
+  std::string getTriggerName() override;
+  std::string getXYSourceXName() override;
+  std::string getXYSourceYName() override;
+  void getTraceList(stringlist *) override;
+  bool triggerLocked() override;
 
-  int getMode();
-  double getSweep();
-  unsigned int getHDivs();
-  unsigned int getVDivs();
-  int getTriggerEdge();
-  double getTriggerLevel();
+  int getMode() override;
+  double getSweep() override;
+  unsigned int getHDivs() override;
+  unsigned int getVDivs() override;
+  int getTriggerEdge() override;
+  double getTriggerLevel() override;
 
-  bool getHold();
-  bool getDispLog();
-  unsigned int getDispFMin();
-  unsigned int getDispFMax();
-  std::string getInfoTraceName();
-  bool getDispDb();
-  double getDispDbRef();
-  double getVDiv() {
+  bool getHold() override;
+  bool getDispLog() override;
+  unsigned int getDispFMin() override;
+  unsigned int getDispFMax() override;
+  std::string getInfoTraceName() override;
+  bool getDispDb() override;
+  double getDispDbRef() override;
+  double getVDiv() override {
     return vDiv;
   }
-  double getDbMin() {
+  double getDbMin() override {
     return dbMin;
   }
-  double getDbMax() {
+  double getDbMax() override {
     return dbMax;
   }
   /* FIXME needs qfont */
-  std::string getFont(){
+  std::string getFont() override{
    // return font.toString();
     return font;
   }
 
-  void setMode(int);
-  void setSweep(double);
-  void setHDivs(unsigned int);
-  void setVDivs(unsigned int);
-  void setTriggerEdge(int);
-  void setTriggerLevel(double);
-  void setHold(bool);
-  void setDispLog(bool);
-  void setDispFMin(unsigned int);
-  void setDispFMax(unsigned int);
-  void setInfoTraceName(const std::string&);
-  void setDispDb(bool);
-  void setDispDbRef(double);
-  void setVDiv(double);
-  void setDbMin(double);
-  void setDbMax(double);
-  void setFont(const std::string&);
+  void setMode(int) override;
+  void setSweep(double) override;
+  void setHDivs(unsigned int) override;
+  void setVDivs(unsigned int) override;
+  void setTriggerEdge(int) override;
+  void setTriggerLevel(double) override;
+  void setHold(bool) override;
+  void setDispLog(bool) override;
+  void setDispFMin(unsigned int) override;
+  void setDispFMax(unsigned int) override;
+  void setInfoTraceName(const std::string&) override;
+  void setDispDb(bool) override;
+  void setDispDbRef(double) override;
+  void setVDiv(double) override;
+  void setDbMin(double) override;
+  void setDbMax(double) override;
+  void setFont(const std::string&) override;
 
-  int storeValues(FILE *, double, double, int);
-  double getMaxDspRate();
+  int storeValues(FILE *, double, double, int) override;
+  double getMaxDspRate() override;
     
-  void notifyTraceUpdate(const std::string&);  
-  void registerObserver(const ScopeObserver* newObserver);
-  void removeObserver(const ScopeObserver* delObserver);
-  void notifyObserver();  
+  void notifyTraceUpdate(const std::string&) override;  
+  void registerObserver(const ScopeObserver* newObserver) override;
+  void removeObserver(const ScopeObserver* delObserver) override;
+  void notifyObserver() override;  
 private:
   std::vector<std::shared_ptr<ScopeObserver>> _scopeObserver;
   ControllerClass* parentController;

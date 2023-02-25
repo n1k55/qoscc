@@ -36,7 +36,7 @@ class fSlider : public QGroupBox  {
 
 public:
     fSlider(QString name="", QWidget *parent=nullptr);
-    ~fSlider();
+    ~fSlider() override;
     float getValue() const;
 
 public slots:

@@ -18,7 +18,7 @@ class DataStoreDialog : public QDialog {
     Ui::DataStoreDialog *ui;
  public:
     explicit  DataStoreDialog(QWidget *parent = Q_NULLPTR);
-    ~ DataStoreDialog();   
+    ~ DataStoreDialog() override;   
  private slots:
     void changedStart( const QString &t );
     void changedEnd( const QString &t );
