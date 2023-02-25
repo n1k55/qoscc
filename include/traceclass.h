@@ -42,7 +42,7 @@ public:
   void setYZoom(double);
   void setXShift(double);
   void setYShift(double);
-  void setDevChannel(unsigned int channelInDev);
+  void setDevChannel(unsigned int newchannel);
   void setColor(const std::string & newcolor);
   int setBufferSize(unsigned int);
   void setPerfectBuffer(bool enablePerfectBuffer);

@@ -292,7 +292,7 @@ void dspMM::getDspSizeList(stringlist *n) {
     n->addString("not used");
 }
 
-void dspMM::getDspNameList(stringlist *n) {
-    n->addString("/dev/ttyS0");
-    n->addString("/dev/ttyS1");
+void dspMM::getDspNameList(stringlist *liste) {
+    liste->addString("/dev/ttyS0");
+    liste->addString("/dev/ttyS1");
 }

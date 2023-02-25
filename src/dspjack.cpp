@@ -175,26 +175,26 @@ int dspJACK::readdsp(dbuffer *buf) {
     return frames;
 }
 
-int dspJACK::setChannels(unsigned int n) {
-    if(n == 0U) {
+int dspJACK::setChannels(unsigned int channels) {
+    if(channels == 0U) {
         return -1;
-}
-    if(!running) {
-        channels = n;
+    }
+    if(!this->running) {
+        this->channels = channels;
         return 0;
     }
     // device running: stop, reconfigure and start again
     // FIXME: do this runtime, so currently connected
     // channels do not get disconnected!
-    closeDevice();
-    channels = n;
-    openDevice();
+    this->closeDevice();
+    this->channels = channels;
+    this->openDevice();
     return 0;
 }
 
 // not used in this api
-void dspJACK::setBufferSize(unsigned int n) {
-    bufferSize = n;
+void dspJACK::setBufferSize(unsigned int size) {
+    bufferSize = size;
 }
 
 int dspJACK::setAdjust(double n) {

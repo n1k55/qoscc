@@ -244,10 +244,10 @@ int TraceClass::setBufferSize(unsigned int newsize) {
   return 0;
 }
 
-void TraceClass::setPerfectBuffer(bool n) {
+void TraceClass::setPerfectBuffer(bool enablePerfectBuffer) {
   { //write lock
     std::lock_guard<std::shared_mutex> lock(rwMutex);
-    PerfectBuffer = n;
+    PerfectBuffer = enablePerfectBuffer;
   }
 }
 

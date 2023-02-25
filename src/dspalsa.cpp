@@ -238,17 +238,17 @@ int dspALSA::setDspSize(int n) {
     return 0;
 }
 
-int dspALSA::setChannels(unsigned int n) {
-    if(channels == n) {
+int dspALSA::setChannels(unsigned int channels) {
+    if(this->channels == channels) {
         return 0;
     }
-    if(!running) {
-        channels = n;
+    if(!this->running) {
+        this->channels = channels;
         return 0;
     }
-    channels = n;
-    closeDevice();
-    openDevice();
+    this->channels = channels;
+    this->closeDevice();
+    this->openDevice();
     return 0;
 }
 

@@ -56,8 +56,8 @@ int dspNONE::readdsp(dbuffer *) {
     return 0;
 }
 
-int dspNONE::setChannels(unsigned int n) {
-    channels = n;
+int dspNONE::setChannels(unsigned int channels) {
+    this->channels = channels;
     return 0;
 }
 
