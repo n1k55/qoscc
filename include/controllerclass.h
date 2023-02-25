@@ -13,8 +13,8 @@
 
 class ControllerClass
 {
-    typedef std::lock_guard<std::shared_mutex> writeLock;
-    typedef std::shared_lock<std::shared_mutex> readLock;  
+    using writeLock = std::lock_guard<std::shared_mutex>;
+    using readLock = std::shared_lock<std::shared_mutex>;  
 public:
     ControllerClass();
     ~ControllerClass();
