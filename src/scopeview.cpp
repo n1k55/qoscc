@@ -52,11 +52,11 @@ void ScopeView::mousePressEvent(QMouseEvent *e) {
     triggerRedrawScope();
 }
 
-unsigned int ScopeView::getMouseX() {
+unsigned int ScopeView::getMouseX() const {
     return mouse_x;
 }
 
-unsigned int ScopeView::getMouseY() {
+unsigned int ScopeView::getMouseY() const {
     return mouse_y;
 }
 

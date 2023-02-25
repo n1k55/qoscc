@@ -192,7 +192,7 @@ void ScopeClass::dump(FILE *file) {
 
 // unsigned int getTraceNum()
 // return number of traces
-unsigned int ScopeClass::getTraceNum() {
+unsigned int ScopeClass::getTraceNum() const {
     return tracenum;
 }
 

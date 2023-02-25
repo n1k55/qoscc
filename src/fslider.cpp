@@ -100,7 +100,7 @@ void fSlider::setValue(float n) {
     value = n;
 }
 
-float fSlider::getValue() {
+float fSlider::getValue() const {
     return value;
 }
 

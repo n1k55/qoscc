@@ -31,7 +31,7 @@ public:
 
   void dump(FILE *file);
 
-  unsigned int getTraceNum();
+  unsigned int getTraceNum() const;
 
   void setHeight(int);
   void setWidth(int);

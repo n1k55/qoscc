@@ -37,7 +37,7 @@ class fSlider : public QGroupBox  {
 public:
     fSlider(const QString name="", QWidget *parent=0);
     ~fSlider();
-    float getValue();
+    float getValue() const;
 
 public slots:
     void setMinValue(float n);

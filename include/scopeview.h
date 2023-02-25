@@ -24,8 +24,8 @@ public:
 
   void triggerRedrawScope();
   void redrawScope();
-  unsigned int getMouseX();
-  unsigned int getMouseY();
+  unsigned int getMouseX() const;
+  unsigned int getMouseY() const;
   void setMouseX(unsigned int);
   void setMouseY(unsigned int);
   int getScreenPos(double);

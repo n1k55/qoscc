@@ -41,8 +41,8 @@ class dbuffer{
     double getValue(double);  // get value at time / frequency
     
     // output
-    double getSampleRate(){return samplerate;};
-    unsigned int getNumSamples(){return fill;};
+    double getSampleRate() const{return samplerate;};
+    unsigned int getNumSamples() const{return fill;};
     sampleTypes getType(){return type;};
     sampleUnits getUnit(){return unit;};
     std::string getTypeString();

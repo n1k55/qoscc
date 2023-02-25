@@ -177,7 +177,7 @@ TraceInterface *ControllerClass::getTrace(const std::string &name) {
 
 // int getTraceNum()
 // returns number of existing traces
-unsigned int ControllerClass::getTraceNum() {
+unsigned int ControllerClass::getTraceNum() const {
     return tracenum;
 }
 

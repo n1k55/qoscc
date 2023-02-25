@@ -28,19 +28,19 @@ dspCommon::dspCommon() {
 
 dspCommon::~dspCommon() {}
 
-bool dspCommon::isRunning() {
+bool dspCommon::isRunning() const {
     return running;
 }
 
-unsigned int dspCommon::getChannels() {
+unsigned int dspCommon::getChannels() const {
     return channels;
 }
 
-double dspCommon::getDspRate() {
+double dspCommon::getDspRate() const {
     return dspRate;
 }
 
-unsigned int dspCommon::getDspSize() {
+unsigned int dspCommon::getDspSize() const {
     return dspSize;
 }
 
@@ -48,11 +48,11 @@ std::string dspCommon::getDeviceName() {
     return deviceName;
 }
 
-double dspCommon::getAdjust() {
+double dspCommon::getAdjust() const {
     return adjust;
 }
 
-unsigned int dspCommon::getBufferSize(){
+unsigned int dspCommon::getBufferSize() const{
     return bufferSize;
 }
 

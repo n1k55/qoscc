@@ -34,7 +34,7 @@ public:
     int removeScope(ScopeInterface *scope);
     ScopeInterface *getScope(const std::string &);
 
-    unsigned int getTraceNum();
+    unsigned int getTraceNum() const;
 
     void getDeviceList(stringlist *);
     void getTraceList(stringlist *);

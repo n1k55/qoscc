@@ -40,14 +40,14 @@ public:
     virtual void setBufferSize(unsigned int) = 0;
     virtual int setAdjust(double) = 0;
 
-    double getAdjust();
-    unsigned int getChannels();
-    double getDspRate();
-    unsigned int getDspSize();
+    double getAdjust() const;
+    unsigned int getChannels() const;
+    double getDspRate() const;
+    unsigned int getDspSize() const;
     std::string getDeviceName();
-    unsigned int getBufferSize();
+    unsigned int getBufferSize() const;
 
-    bool isRunning();
+    bool isRunning() const;
 
 protected:
     bool running;
