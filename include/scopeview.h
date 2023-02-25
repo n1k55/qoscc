@@ -18,7 +18,7 @@ class ScopeView : public QWidget, public ScopeObserver
 {
   Q_OBJECT
 public:  
-  ScopeView(ScopeInterface* _modelScope, QWidget *parent = 0, const char *name = 0);
+  ScopeView(ScopeInterface* _modelScope, QWidget *parent = nullptr, const char *name = nullptr);
   ~ScopeView();
   ScopeView(const ScopeView&) = delete;
 

@@ -16,7 +16,7 @@ class QOscCWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit QOscCWindow(QWidget *parent = 0);
+    explicit QOscCWindow(QWidget *parent = nullptr);
     ~QOscCWindow();
 
     void initActions();

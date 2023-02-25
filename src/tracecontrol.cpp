@@ -139,7 +139,7 @@ TraceControl::~TraceControl() {
 
     // finally remove it
     delete trace;
-    trace = 0;
+    trace = nullptr;
 
     // tell the rest of the world of my death...
     emit hasChanged() ;

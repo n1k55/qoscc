@@ -35,7 +35,7 @@ class fSlider : public QGroupBox  {
     Q_OBJECT
 
 public:
-    fSlider(QString name="", QWidget *parent=0);
+    fSlider(QString name="", QWidget *parent=nullptr);
     ~fSlider();
     float getValue() const;
 

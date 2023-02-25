@@ -41,7 +41,7 @@ class TraceControl : public QGroupBox  {
     Q_OBJECT
 
 public:
-    TraceControl(TraceInterface *n, ControllerClass* parentController, QWidget *parent=0, std::string=0);
+    TraceControl(TraceInterface *n, ControllerClass* parentController, QWidget *parent=nullptr, std::string=nullptr);
     ~TraceControl();
 public slots:
     void update();

@@ -36,7 +36,7 @@ public:
     ScopeControl(ScopeInterface *scope,
         ScopeView* view,
         ControllerClass* parentController,
-        QTabWidget *parent = 0,
+        QTabWidget *parent = nullptr,
         std::string = ""
         );
     ~ScopeControl();

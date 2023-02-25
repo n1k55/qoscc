@@ -22,7 +22,7 @@
 
 dspJACK::dspJACK() {
     frames = 0;
-    buffer = NULL;
+    buffer = nullptr;
     jackdRunning = true;
 
     // init "buffer ready" condition
@@ -30,7 +30,7 @@ dspJACK::dspJACK() {
     pthread_mutex_init(&data_ready_lock, nullptr);
 
     // register as client
-    if((client = jack_client_new("QOscC")) == 0) {
+    if((client = jack_client_new("QOscC")) == nullptr) {
         MSG(MSG_ERROR, "Cannot register as Client. Jackd running?\n");
         jackdRunning = false;
         return;
@@ -79,13 +79,13 @@ int dspJACK::openDevice() {
     for(unsigned int ch = 0; ch < channels; ch++) {
         char name[80];
         sprintf(name, "input_%d", ch);
-        if((inports[ch] = jack_port_register (client, name, JACK_DEFAULT_AUDIO_TYPE, JackPortIsInput, 0)) == 0) {
+        if((inports[ch] = jack_port_register (client, name, JACK_DEFAULT_AUDIO_TYPE, JackPortIsInput, 0)) == nullptr) {
             fprintf (stderr, "cannot register input port \"%s\"!\n", name);
             jack_client_close (client);
             return -1;
         }
         sprintf(name, "output_%d", ch);
-        if((outports[ch] = jack_port_register (client, name, JACK_DEFAULT_AUDIO_TYPE, JackPortIsOutput, 0)) == 0) {
+        if((outports[ch] = jack_port_register (client, name, JACK_DEFAULT_AUDIO_TYPE, JackPortIsOutput, 0)) == nullptr) {
             fprintf (stderr, "cannot register input port \"%s\"!\n", name);
             jack_client_close (client);
             return -1;
