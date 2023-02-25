@@ -7,14 +7,14 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    fSlider* test_fslider = new fSlider("testslider");
+    auto* test_fslider = new fSlider("testslider");
     QMainWindow w;
 
-    QHBoxLayout *layout = new QHBoxLayout;
+    auto *layout = new QHBoxLayout;
     layout->addWidget(test_fslider);
 
     // Set layout in QWidget
-    QWidget *slider_container = new QWidget();
+    auto *slider_container = new QWidget();
     slider_container->setLayout(layout);
 
     w.setCentralWidget(slider_container);
