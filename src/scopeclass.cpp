@@ -81,7 +81,7 @@ std::string ScopeClass::getName() {
 // int setName(string)
 // sets the name of this scope
 int ScopeClass::setName(const std::string &newname) {
-    if(parentController->getScope(newname)) {
+    if(parentController->getScope(newname) != nullptr) {
         return -1;
     }
 
@@ -125,7 +125,7 @@ int ScopeClass::addTrace(TraceInterface *newtrace) {
     buf = newbuf;
 
     // delete old array if it existed
-    if(tracenum) {
+    if(tracenum != 0u) {
         delete [] traces;
     }
     // copy back new list
@@ -258,7 +258,7 @@ TraceInterface *ScopeClass::getTrace(unsigned int i)
 // removes specified trace and its local buffer from list
 int ScopeClass::removeTrace(TraceInterface *trace) {
     // bail out if we got a zero pointer
-    if(!trace || tracenum < 1) {
+    if((trace == nullptr) || tracenum < 1) {
         return -1;
     }
 
@@ -289,7 +289,7 @@ int ScopeClass::removeTrace(const std::string &tracename) {
 // check and set new trigger source
 int ScopeClass::setTriggerSource(std::string newname) {
     TraceInterface *newsource = parentController->getTrace(newname);
-    if(!newsource) {  // trace not found
+    if(newsource == nullptr) {  // trace not found
         return -1;
     }
 
@@ -354,7 +354,7 @@ int ScopeClass::do_trigger(unsigned int trace) {
 // check and set new x source
 int ScopeClass::setXYSourceX(std::string newname) {
     TraceInterface *newsource = getTrace(newname);
-    if(!newsource) {  // trace not found
+    if(newsource == nullptr) {  // trace not found
         return -1;
     }
 
@@ -370,7 +370,7 @@ int ScopeClass::setXYSourceX(std::string newname) {
 // check and set new y source
 int ScopeClass::setXYSourceY(std::string newname) {
     TraceInterface *newsource = getTrace(newname);
-    if(!newsource) {  // trace not found
+    if(newsource == nullptr) {  // trace not found
         return -1;
     }
 
@@ -514,7 +514,7 @@ void ScopeClass::setDispFMax(unsigned int n) {
 void ScopeClass::setInfoTraceName(const std::string& newname) {
     std::lock_guard<std::shared_mutex> lock(mutex);
     // check if trace exists
-    if(parentController->getTrace(newname)) {
+    if(parentController->getTrace(newname) != nullptr) {
         infoTraceName = newname;
     }
 }

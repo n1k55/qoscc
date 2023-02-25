@@ -36,7 +36,7 @@ void dbuffer::initvars(){
     // init to defaults
 //    MSG(MSG_DEBUG, "buf = ....\n");
     buf = new double[2048];
-    if(!buf){
+    if(buf == nullptr){
         MSG(MSG_ERROR, "Could not allocate memory!\n");
         exit(1);
     }
@@ -61,7 +61,7 @@ dbuffer::dbuffer(unsigned int size, double samplerate, double init){
         buf = new double[size];
         buflen = size;
     }
-    if(!buf){
+    if(buf == nullptr){
 //        MSG(MSG_ERROR, "Could not allocate memory!\n");
         exit(1);
     }
@@ -81,7 +81,7 @@ dbuffer::dbuffer(const dbuffer& oldbuffer){
 
 //    MSG(MSG_DEBUG, "buf = ....\n");
     buf = new double[buflen];
-    if(!buf){
+    if(buf == nullptr){
         MSG(MSG_ERROR, "Could not allocate memory!\n");
         exit(1);
     }
@@ -94,7 +94,7 @@ dbuffer::dbuffer(double *oldbuf, unsigned int oldsize, double oldrate, sampleTyp
     initvars();
 
 //    printf("oldbuf: %p, oldsize: %d, oldrate: %.3f\n", oldbuf, oldsize, oldrate);
-    if(!oldsize || !oldbuf || !oldrate) { // do nothing if values are nonsense
+    if((oldsize == 0u) || (oldbuf == nullptr) || (oldrate == 0.0)) { // do nothing if values are nonsense
         return;
     }
 
@@ -105,7 +105,7 @@ dbuffer::dbuffer(double *oldbuf, unsigned int oldsize, double oldrate, sampleTyp
         delete [] buf;
 //        MSG(MSG_DEBUG, "buf = ....\n");
         buf = new double[oldsize];
-        if(!buf){
+        if(buf == nullptr){
             MSG(MSG_ERROR, "Could not allocate memory!\n");
             exit(1);
         }
@@ -136,7 +136,7 @@ dbuffer dbuffer::operator +(const dbuffer &left){
     if(left.fill + fill > newbuf.buflen){
         delete [] newbuf.buf;
         newbuf.buf = new double[left.fill + fill];
-        if(!newbuf.buf){
+        if(newbuf.buf == nullptr){
             MSG(MSG_ERROR, "Could not allocate memory!\n");
             exit(1);
         }
@@ -152,7 +152,7 @@ dbuffer dbuffer::operator +(const dbuffer &left){
     newbuf.fill = fill + left.fill;
     // take parameters from first argument
     // if it exists
-    if(buflen){
+    if(buflen != 0u){
         newbuf.type = type;
         newbuf.unit = unit;
         newbuf.samplerate = samplerate;
@@ -176,7 +176,7 @@ dbuffer& dbuffer::operator =(const dbuffer &oldbuffer){
         delete [] buf;
 //        MSG(MSG_DEBUG, "buf = ....\n");
         buf = new double[oldbuffer.fill];
-        if(!buf){
+        if(buf == nullptr){
             MSG(MSG_ERROR, "Could not allocate memory!\n");
             exit(1);
         }
@@ -262,7 +262,7 @@ void dbuffer::applyFft(){
     }
     // do not run the fft if there is no data
     // this could lead to errors in fftw.
-    if(!fill){
+    if(fill == 0u){
         return;
     }
 
@@ -297,7 +297,7 @@ void dbuffer::applyFft(){
         MSG(MSG_DEBUG, "FFTW-Plan recalculated\n");
         // uuugh, fftw_plan destroys data, so tmp them......
         double *tmp = new double[fill];
-        if(!tmp){
+        if(tmp == nullptr){
             MSG(MSG_ERROR, "Could not allocate memory!\n");
             exit(1);
         }
@@ -335,7 +335,7 @@ void dbuffer::setSize(unsigned int newsize){ // set buffer to specified size
         delete [] buf;
 //        MSG(MSG_DEBUG, "buf = ....\n");
         buf = new double[newsize];
-        if(!buf){
+        if(buf == nullptr){
             MSG(MSG_ERROR, "Could not allocate memory!\n");
             exit(1);
         }

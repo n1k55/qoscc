@@ -37,7 +37,7 @@ dspJACK::dspJACK() {
     }
 
     // register the  callback functions
-    if(jack_set_process_callback(client, dspJACK::jack_process, this)) {
+    if(jack_set_process_callback(client, dspJACK::jack_process, this) != 0) {
         MSG(MSG_ERROR, "cannot register callback process!\n");
         return;
     }
@@ -72,7 +72,7 @@ int dspJACK::openDevice() {
     // prepare ports
     inports = new jack_port_t*[channels];
     outports = new jack_port_t*[channels];
-    if(!inports || !outports) {
+    if((inports == nullptr) || (outports == nullptr)) {
         MSG(MSG_ERROR, "Unable to allocate memory\n");
         exit(-1);
     }
@@ -93,7 +93,7 @@ int dspJACK::openDevice() {
     }
 
     // activate this client
-    if(jack_activate(client)) {
+    if(jack_activate(client) != 0) {
         MSG(MSG_ERROR, "Cannot activate client\n");
         return -1;
     }
@@ -176,7 +176,7 @@ int dspJACK::readdsp(dbuffer *buf) {
 }
 
 int dspJACK::setChannels(unsigned int n) {
-    if(!n) {
+    if(n == 0u) {
         return -1;
 }
     if(!running) {

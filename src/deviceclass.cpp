@@ -75,7 +75,7 @@ void DeviceClass::readbuffers()
       buf[ch].setSampleRate(dsp->getDspRate());
       for(unsigned int i = 0; i < traces.count(); i++) {
         TraceInterface *trace = parentController->getTrace(traces.getString(i));
-        if(!trace) { // skip if trace does not exist
+        if(trace == nullptr) { // skip if trace does not exist
           continue;
         }
         // transfer the buffer, if traces parent && channel matches this one
@@ -156,12 +156,12 @@ std::string DeviceClass::getdevname() {
 int DeviceClass::start() {
   { //write lock
     std::lock_guard<std::shared_mutex> lock(rwMutex);
-    if(!buf) {
+    if(buf == nullptr) {
       //printf("%s::start() starting device\n", getname());
       //fflush(stdout);
       // alloc local data buffer
       buf = new dbuffer[dsp->getChannels()];
-      if(!buf) {
+      if(buf == nullptr) {
           MSG(MSG_ERROR, "Could not allocate memory!\n");
           exit(1);
       }
@@ -169,7 +169,7 @@ int DeviceClass::start() {
 
     // bring up dsp
     if(!dsp->isRunning()) {
-      if(dsp->openDevice()) {
+      if(dsp->openDevice() != 0) {
         return -1;
       }
     }
@@ -205,7 +205,7 @@ int DeviceClass::stop() {
       }
 
       // free buffer
-      if(buf) {
+      if(buf != nullptr) {
         delete [] buf;
         buf = nullptr;
       }
@@ -278,18 +278,18 @@ void DeviceClass::setBuffersize(unsigned int size) {
 int DeviceClass::setChannels(unsigned int n) {
   { //write lock
     std::lock_guard<std::shared_mutex> lock(rwMutex);
-    if(buf) {
+    if(buf != nullptr) {
       // delete old buffer....
       delete [] buf;
       // allocate new buffer:
       buf = new dbuffer[n];
-      if(!buf) {
+      if(buf == nullptr) {
         fprintf(stderr, "%s: unable to alloc memory!\n", name.c_str());
         exit(-1);
       }
     }
 
-    if(dsp->setChannels(n)) {
+    if(dsp->setChannels(n) != 0) {
         return -1;
     }
   }  
@@ -380,7 +380,7 @@ int DeviceClass::setDeviceType(int newtype) {
     }
 
     // assert memory...
-    if(!newdsp) {
+    if(newdsp == nullptr) {
         fprintf(stderr, "DeviceClass::setDeviceType(): unable to get memory (%s)\n", strerror(errno));
         exit(-1);
     }

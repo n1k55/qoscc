@@ -337,7 +337,7 @@ void ScopeControl::updateTraceList() {
     for(i = 0; i < liste.count(); i++) {
         tracelist->addItem(QString::fromStdString(liste.getString(i)));
         // check if this trace is in this scope...
-        if(thisscope->getTrace(liste.getString(i))) {
+        if(thisscope->getTrace(liste.getString(i)) != nullptr) {
             tracelist->setCurrentRow(i); // set selected item true
         }
     }
@@ -348,7 +348,7 @@ void ScopeControl::updateTraceList() {
 void ScopeControl::setTraceList() {
     for(unsigned int i = 0; i < tracelist->count(); i++) {
         TraceInterface *trace = _parentController->getTrace(tracelist->item(i)->text().toStdString());
-        if(!trace) {  // skip if this trace does not exist
+        if(trace == nullptr) {  // skip if this trace does not exist
             printf("%s::setTraceList: trace %s does not exist\n",
                    thisscope->getName().c_str(), tracelist->item(i)->text().toStdString().c_str());
             fflush(stdout);
@@ -356,11 +356,11 @@ void ScopeControl::setTraceList() {
         }
         if(tracelist->currentRow() == i) {
             // add this trace if it doesnt exist yet
-            if(!thisscope->getTrace(trace->getName())) {
+            if(thisscope->getTrace(trace->getName()) == nullptr) {
                 thisscope->addTrace(trace);
             }
         } else { // remove this trace if it exists
-            if(thisscope->getTrace(trace->getName())) {
+            if(thisscope->getTrace(trace->getName()) != nullptr) {
                 thisscope->removeTrace(tracelist->item(i)->text().toStdString());
             }
         }
@@ -401,7 +401,7 @@ void ScopeControl::setScopeName() {
 // set new sweep value
 void ScopeControl::setSweep(const QString & text) {
     double value = stringToNum(text.toStdString());
-    if(!value) {
+    if(value == 0.0) {
         emit setStatus(tr("Cannot set sweep to zero!"));
         return;
     }
@@ -465,16 +465,16 @@ void ScopeControl::setModeFft() {
 void ScopeControl::updateMode() {
     switch(thisscope->getMode()) {
     case M_NONE:
-        mode_none->setChecked(1);
+        mode_none->setChecked(true);
         break;
     case M_YT:
-        mode_yt->setChecked(1);
+        mode_yt->setChecked(true);
         break;
     case M_XY:
-        mode_xy->setChecked(1);
+        mode_xy->setChecked(true);
         break;
     case M_FFT:
-        mode_fft->setChecked(1);
+        mode_fft->setChecked(true);
         break;
     }
 }
@@ -503,13 +503,13 @@ void ScopeControl::updateTLevel() {
 void ScopeControl::updateTEdge() {
     switch(thisscope->getTriggerEdge()) {
     case TE_NONE:
-        btnTedgeNone->setChecked(1);
+        btnTedgeNone->setChecked(true);
         break;
     case TE_RISE:
-        btnTedgePositive->setChecked(1);
+        btnTedgePositive->setChecked(true);
         break;
     case TE_FALL:
-        btnTedgeNegative->setChecked(1);
+        btnTedgeNegative->setChecked(true);
         break;
     }
 }
@@ -574,10 +574,10 @@ void ScopeControl::updateXYSource() {
         globalXYBox->hide();
     }
 
-    if(lstXTrace->count()) {
+    if(lstXTrace->count() != 0) {
         setXSource(lstXTrace->currentText());
     }
-    if(lstYTrace->count()) {
+    if(lstYTrace->count() != 0) {
         setYSource(lstYTrace->currentText());
     }
 }
@@ -878,7 +878,7 @@ void ScopeControl::saveDataFile() {
     if(dl->exec() == QDialog::Accepted){
         // open file
         fd = fopen(dl->getFileName().toStdString().c_str(), "w");
-        if(!fd) {
+        if(fd == nullptr) {
             emit setStatus(tr("Could not write file!"));
             QMessageBox::warning(this, tr("QOscC - Could not open file"),
                                  tr("Could not open \"%1\" for writing.").arg(dl->getFileName()));
@@ -890,7 +890,7 @@ void ScopeControl::saveDataFile() {
         return;
     }
 
-    if(!thisscope->storeValues(fd, dl->getStart(), dl->getRate(), dl->getNSamples())) {
+    if(thisscope->storeValues(fd, dl->getStart(), dl->getRate(), dl->getNSamples()) == 0) {
         emit setStatus(tr("Datafile %1 successfully written").arg(dl->getFileName()));
     } else {
         emit setStatus(tr("Writing datafile %1 failed!").arg(dl->getFileName()));

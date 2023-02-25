@@ -21,7 +21,7 @@ QOscCWindow::QOscCWindow(QWidget *parent) :
   controller = new ControllerClass();
   // read configuration
   conffilename = std::string(getenv("HOME")) + "/.qosccrc";
-  if(controller->readconfig(conffilename)) {
+  if(controller->readconfig(conffilename) != 0) {
     QMessageBox::information(this, 
                              tr("QOscC -- No configuration file found"),
                              tr("No configuration file (%1) has been found. I'll use default settings.\n" 
@@ -182,7 +182,7 @@ void QOscCWindow::addDevice() {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
         }
-        if(controller->getDevice(name.toStdString())) {
+        if(controller->getDevice(name.toStdString()) != nullptr) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("This name already exists.\nPlease select another."));
             ok = false;
         }
@@ -224,7 +224,7 @@ void QOscCWindow::addScope() {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
         }
-        if(controller->getScope(name.toStdString())) {
+        if(controller->getScope(name.toStdString()) != nullptr) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("This name already exists.\nPlease select another."));
             ok = false;
         }
@@ -273,7 +273,7 @@ void QOscCWindow::addTrace() {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
         }
-        if(controller->getTrace(name.toStdString())) {
+        if(controller->getTrace(name.toStdString()) != nullptr) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("This name already exists.\nPlease select another."));
             ok = false;
         }

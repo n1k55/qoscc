@@ -87,7 +87,7 @@ void TraceClass::setname(std::string newname) {
 // check and set parent name
 int TraceClass::setParentName(std::string newname) {
     std::lock_guard<std::shared_mutex> lock(rwMutex);
-    if(parentController->getDevice(newname)){
+    if(parentController->getDevice(newname) != nullptr){
         parent = parentController->getDevice(newname);
         parentname = newname;
     }
@@ -113,7 +113,7 @@ DeviceInterface *TraceClass::getParent() {
 // re-read string values from its objects (parent / other trace names)
 void TraceClass::recalc_stringrefs() {
     // re-read parents name:
-    if(parent) {
+    if(parent != nullptr) {
         parentname = parent->getName();
     }
 }
@@ -234,7 +234,7 @@ void TraceClass::setColor(const std::string & newcolor) {
 // void setBufferSize(unsigned int)
 // resize the buffer...
 int TraceClass::setBufferSize(unsigned int newsize) {
-  if(!newsize) {
+  if(newsize == 0u) {
     return -1;
   }
   { //write lock

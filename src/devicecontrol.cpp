@@ -161,7 +161,7 @@ void DeviceControl::getName() {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("You should specify a name"));
             ok = false;
         }
-        if(_parentController->getScope(name.toStdString())) {
+        if(_parentController->getScope(name.toStdString()) != nullptr) {
             QMessageBox::warning(this, tr("QOscC -- Ooops.."), tr("This name already exists.\nPlease select another."));
             ok = false;
         }
@@ -243,7 +243,7 @@ void DeviceControl::setDspType() {
 
 void DeviceControl::setDspRate() {
     double value = dspRates->currentText().toDouble();
-    if(!device->setDspRate(value)) {
+    if(device->setDspRate(value) == 0) {
         emit setStatus(tr("Set samplingrate to %1Hz").arg(QString::fromStdString(numToString(value))));
     } else {
         emit setStatus(tr("Unable to set the Samplingrate to %1Hz").arg(QString::fromStdString(numToString(value))));
@@ -255,7 +255,7 @@ void DeviceControl::setDspRate() {
 }
 
 void DeviceControl::setDspChannel() {
-    if(device->setChannels(dspChannels->currentText().toInt())) {
+    if(device->setChannels(dspChannels->currentText().toInt()) != 0) {
         emit(setStatus(tr("Could not change number of channels")));
     } else {
         emit(setStatus(tr("Changed number of Channels")));
@@ -286,7 +286,7 @@ void DeviceControl::tryStart() {
     setDspChannel();
     setBufferSize();
 
-    if(!device->start()) {
+    if(device->start() == 0) {
         emit setStatus(tr("Device %1 succesfully started").arg(QString::fromStdString(device->getName())));
     } else {
         emit setStatus(tr("Device %1 could not be started!!").arg(QString::fromStdString(device->getName())));

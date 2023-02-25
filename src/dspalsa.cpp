@@ -32,12 +32,12 @@ dspALSA::dspALSA() {
 
     snd_pcm_info_malloc(&pcm_info);
 
-    while(!snd_card_next(&card) && card > -1) {
+    while((snd_card_next(&card) == 0) && card > -1) {
         int dev = -1;
         char devname[80];
         sprintf(devname, "hw:%d", card);
         snd_ctl_open(&ctl, devname, 0);
-        while(!snd_ctl_pcm_next_device(ctl, &dev) && dev > -1) {
+        while((snd_ctl_pcm_next_device(ctl, &dev) == 0) && dev > -1) {
             snd_pcm_info_set_device(pcm_info, dev);
             snd_pcm_info_set_subdevice(pcm_info, 0);
             snd_pcm_info_set_stream(pcm_info, SND_PCM_STREAM_CAPTURE);
@@ -67,7 +67,7 @@ int dspALSA::openDevice() {
         return 0;
     }
 
-    if(!dspSize || !dspRate || !channels || !bufferSize) {
+    if((dspSize == 0u) || (dspRate == 0.0) || (channels == 0u) || (bufferSize == 0u)) {
         MSG(MSG_WARN, "dspALSA::openDevice(): Device not correctly configured!\n");
         return -1;
     }
@@ -171,7 +171,7 @@ int dspALSA::openDevice() {
 
 int dspALSA::closeDevice() {
     running = false;
-    if(snd_pcm_close(pcm_handle)) {
+    if(snd_pcm_close(pcm_handle) != 0) {
         return -1;
     }
     return 0;
@@ -301,7 +301,7 @@ int dspALSA::readdsp(dbuffer *buf) {
     // as these are masked out, but now, valgrind cannot complain about it any more....
     char *buffer = new char[bufferSize * dsp_bytes * channels + 4];
     
-    if(!buffer) {
+    if(buffer == nullptr) {
         fprintf(stderr, "readbuffers(): Not enough memory (%s)\n", strerror(errno));
         exit(-1);
     }

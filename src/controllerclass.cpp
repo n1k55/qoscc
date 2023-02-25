@@ -48,7 +48,7 @@ ControllerClass::~ControllerClass() {
 // ads specified device to array
 int ControllerClass::addDevice(DeviceInterface *newdev) {
     // bail out if device exists already
-    if(getDevice(newdev->getName())) {
+    if(getDevice(newdev->getName()) != nullptr) {
         return -1;
     }
 
@@ -66,7 +66,7 @@ int ControllerClass::addDevice(DeviceInterface *newdev) {
         newlist[devnum] = newdev;
 
         // delete old array if it existed
-        if (devnum) {
+        if (devnum != 0u) {
             delete [] devices;
         }
         // copy back new list
@@ -82,7 +82,7 @@ int ControllerClass::addDevice(DeviceInterface *newdev) {
 // removes specified class from array and clears memory
 int ControllerClass::removeDevice(DeviceInterface *devptr) {
     // bail out if we got a zero pointer
-    if (!devptr || devnum < 1) {
+    if ((devptr == nullptr) || devnum < 1) {
       return -1;
     }
 
@@ -120,7 +120,7 @@ DeviceInterface *ControllerClass::getDevice(const std::string &name) {
 // adds new trace to global list
 int ControllerClass::addTrace(TraceInterface *newtrace) {
     // bail out if trace name exists already
-    if (getTrace(newtrace->getName())) {
+    if (getTrace(newtrace->getName()) != nullptr) {
         return -1;
     }
 
@@ -138,7 +138,7 @@ int ControllerClass::addTrace(TraceInterface *newtrace) {
         newlist[tracenum] = newtrace;
 
         // delete old array if it existed
-        if (tracenum) {
+        if (tracenum != 0u) {
             delete [] traces;
         }
         // copy back new list
@@ -154,7 +154,7 @@ int ControllerClass::addTrace(TraceInterface *newtrace) {
 // removes trace identified by pointer from class
 int ControllerClass::removeTrace(TraceInterface *deltrace) {
     // bail out if we got a zero pointer
-    if(!deltrace || tracenum < 1) {
+    if((deltrace == nullptr) || tracenum < 1) {
         return -1;
     }
 
@@ -197,7 +197,7 @@ unsigned int ControllerClass::getTraceNum() const {
 
 int ControllerClass::addScope(ScopeInterface *newscope) {
     // bail out if scope name exists already
-    if(getScope(newscope->getName())) {
+    if(getScope(newscope->getName()) != nullptr) {
         return -1;
     }
 
@@ -215,7 +215,7 @@ int ControllerClass::addScope(ScopeInterface *newscope) {
         newlist[scopenum] = newscope;
 
         // delete old array if it existed
-        if(scopenum) {
+        if(scopenum != 0u) {
             delete [] scopes;
         }
         // copy back new list
@@ -230,7 +230,7 @@ int ControllerClass::addScope(ScopeInterface *newscope) {
 // removes Scope of given name
 int ControllerClass::removeScope(ScopeInterface *scope) {
     // bail out if we got a zero pointer
-    if(!scope || scopenum < 1) {
+    if((scope == nullptr) || scopenum < 1) {
         return -1;
     }
 
@@ -312,7 +312,7 @@ int ControllerClass::readconfig(const std::string &file) {
     char thelp[81];
 
     conffile = fopen(file.c_str(), "r");
-    if(!conffile) {
+    if(conffile == nullptr) {
         std::cerr << "\nreadconfig(): could not open config file" << file <<"! (" << errno << ")" << std::endl;
         return 1;
     }
@@ -324,105 +324,105 @@ int ControllerClass::readconfig(const std::string &file) {
     // read configfile, transfer parameters to structs
     do {
         fstat = getline(&confline, &conflen, conffile);
-        if(fstat > 1 && strncmp("#", confline, 1)) {   /* 0 would mean EOF, 1 would mean an empty line, "#" is a comment */
+        if(fstat > 1 && (strncmp("#", confline, 1) != 0)) {   /* 0 would mean EOF, 1 would mean an empty line, "#" is a comment */
             confline[fstat - 1] = 0;      /* close string properly by replacing LF by zero */
             //            printf("%s\n", confline);
             //            fflush(stdout);
-            if(!strncmp("[dev]", confline, 5)) {
+            if(strncmp("[dev]", confline, 5) == 0) {
                 currdev = new DeviceClass(this);
-                if(!currdev) {
+                if(currdev == nullptr) {
                     std::cerr << "readconfig: could not allocate memory (" << errno << std::endl;
                     exit(-1);
                 }
                 addDevice(currdev);
                 conftype = C_DEV;
-            } else if(!strncmp("[trace]", confline, 7)) {
+            } else if(strncmp("[trace]", confline, 7) == 0) {
                 currtrace = new TraceClass(this);
-                if(!currtrace) {
+                if(currtrace == nullptr) {
                     std::cerr << "readconfig: could not allocate memory (" << errno << ")" << std::endl;
                     exit(-1);
                 }
                 addTrace(currtrace);
                 conftype = C_TRACE;
-            } else if(!strncmp("[scope]", confline, 8)) {
+            } else if(strncmp("[scope]", confline, 8) == 0) {
                 currscope = new ScopeClass(this);
-                if(!currscope) {
+                if(currscope == nullptr) {
                     std::cerr << "readconfig: could not allocate memory (" << errno << ")" << std::endl;
                     exit(-1);
                 }
                 addScope(currscope);
                 conftype = C_SCOPE;
             } else if(conftype == C_DEV) {
-                if(!strncmp("name = ", confline, 7)) {
+                if(strncmp("name = ", confline, 7) == 0) {
                     currdev->setname(getsparam(confline));
-                } else if(!strncmp("file = ", confline, 7)) {
+                } else if(strncmp("file = ", confline, 7) == 0) {
                     currdev->setdevname(getsparam(confline));
-                } else if(!strncmp("channels = ", confline, 11)) {
+                } else if(strncmp("channels = ", confline, 11) == 0) {
                     currdev->setChannels(getiparam(confline));
-                } else if(!strncmp("dsp_rate = ", confline, 11)) {
+                } else if(strncmp("dsp_rate = ", confline, 11) == 0) {
                     currdev->setDspRate(getfparam(confline));
-                } else if(!strncmp("devicetype = ", confline, 13)) {
-                    if(!strncmp("none", getsparam(confline), 4)) {
+                } else if(strncmp("devicetype = ", confline, 13) == 0) {
+                    if(strncmp("none", getsparam(confline), 4) == 0) {
                         currdev->setDeviceType(PCM_NONE);
-                    } else if(!strncmp("oss", getsparam(confline), 3)) {
+                    } else if(strncmp("oss", getsparam(confline), 3) == 0) {
                         currdev->setDeviceType(PCM_OSS);
-                    } else if(!strncmp("alsa", getsparam(confline), 4)) {
+                    } else if(strncmp("alsa", getsparam(confline), 4) == 0) {
                         currdev->setDeviceType(PCM_ALSA);
-                    } else if(!strncmp("jack", getsparam(confline), 4)) {
+                    } else if(strncmp("jack", getsparam(confline), 4) == 0) {
                         currdev->setDeviceType(PCM_JACK);
-                    } else if(!strncmp("mm", getsparam(confline), 4)) {
+                    } else if(strncmp("mm", getsparam(confline), 4) == 0) {
                         currdev->setDeviceType(PCM_MM);
                     } else {
                         std::cerr << "readconfig(): no such option for devicetype for " << currdev->getName() << std::endl;
                     }
-                } else if(!strncmp("dsp_size = ", confline, 11)) {
-                    if(currdev->setDspSize(getiparam(confline))) {
+                } else if(strncmp("dsp_size = ", confline, 11) == 0) {
+                    if(currdev->setDspSize(getiparam(confline)) != 0) {
                         std::cerr << "readconfig(): invalid dsp_size for " << currdev->getName() << std::endl;
                     }
-                } else if(!strncmp("buffersize = ", confline, 13)) {
+                } else if(strncmp("buffersize = ", confline, 13) == 0) {
                     currdev->setBuffersize(getiparam(confline));
-                } else if(!strncmp("adjust = ", confline, 9)) {
+                } else if(strncmp("adjust = ", confline, 9) == 0) {
                     currdev->setAdjust(getfparam(confline));
                 } else {
                     printf("no such option in [dev]: %s\n", confline);
                 }
 
             } else if(conftype == C_TRACE) {
-                if(!strncmp("name = ", confline, 7)) {
+                if(strncmp("name = ", confline, 7) == 0) {
                     currtrace->setname(getsparam(confline));
-                } else if(!strncmp("channel = ", confline, 10)) {
+                } else if(strncmp("channel = ", confline, 10) == 0) {
                     currtrace->setDevChannel(getiparam(confline));
-                } else if(!strncmp("color = ", confline, 8)) {
+                } else if(strncmp("color = ", confline, 8) == 0) {
                     currtrace->setColor(getsparam(confline));
-                } else if(!strncmp("xshift = ", confline, 9)) {
+                } else if(strncmp("xshift = ", confline, 9) == 0) {
                     currtrace->setXShift(getfparam(confline));
-                } else if(!strncmp("yshift = ", confline, 9)) {
+                } else if(strncmp("yshift = ", confline, 9) == 0) {
                     currtrace->setYShift(getfparam(confline));
-                } else if(!strncmp("buffersize = ", confline, 13)) {
+                } else if(strncmp("buffersize = ", confline, 13) == 0) {
                     currtrace->setBufferSize(getiparam(confline));
-                } else if(!strncmp("perfectbuffer = ", confline, 16)) {
-                    if(!strncmp("true", getsparam(confline), 4)) {
+                } else if(strncmp("perfectbuffer = ", confline, 16) == 0) {
+                    if(strncmp("true", getsparam(confline), 4) == 0) {
                         currtrace->setPerfectBuffer(true);
-                    } else if(!strncmp("false", getsparam(confline), 5)) {
+                    } else if(strncmp("false", getsparam(confline), 5) == 0) {
                         currtrace->setPerfectBuffer(false);
                     } else {
                         std::cerr << "readconfig(): no such option for perfectbuffer: " << std::string(getsparam(confline)) << std::endl;
                     }
-                } else if(!strncmp("parent = ", confline, 9)) {
-                    if(currtrace->setParentName(getsparam(confline))) {
+                } else if(strncmp("parent = ", confline, 9) == 0) {
+                    if(currtrace->setParentName(getsparam(confline)) != 0) {
                         std::cerr << "readconfig(): Unable to set parent name " << std::string(getsparam(confline)) << " for trace " << currtrace->getName() << std::endl;
                         fflush(stderr);
                     }
-                } else if(!strncmp("fftwin = ", confline, 9)) {
-                    if(!strncmp("rectangular", getsparam(confline), 11)) {
+                } else if(strncmp("fftwin = ", confline, 9) == 0) {
+                    if(strncmp("rectangular", getsparam(confline), 11) == 0) {
                         currtrace->setFftWinType(dbuffer::winRect);
-                    } else if(!strncmp("hanning", getsparam(confline), 7)) {
+                    } else if(strncmp("hanning", getsparam(confline), 7) == 0) {
                         currtrace->setFftWinType(dbuffer::winHanning);
-                    } else if(!strncmp("hamming", getsparam(confline), 7)) {
+                    } else if(strncmp("hamming", getsparam(confline), 7) == 0) {
                         currtrace->setFftWinType(dbuffer::winHamming);
-                    } else if(!strncmp("blackman-harris-a", getsparam(confline), 17)) {
+                    } else if(strncmp("blackman-harris-a", getsparam(confline), 17) == 0) {
                         currtrace->setFftWinType(dbuffer::winBlackmanHarrisA);
-                    } else if(!strncmp("blackman-harris-b", getsparam(confline), 17)) {
+                    } else if(strncmp("blackman-harris-b", getsparam(confline), 17) == 0) {
                         currtrace->setFftWinType(dbuffer::winBlackmanHarrisB);
                     } else {
                         printf("no such option for fftwin: %s\n", getsparam(confline));
@@ -433,20 +433,20 @@ int ControllerClass::readconfig(const std::string &file) {
                 }
 
             } else if(conftype == C_SCOPE) {
-                if(!strncmp("name = ", confline, 7)) {
+                if(strncmp("name = ", confline, 7) == 0) {
                     currscope->setName(getsparam(confline));
-                } else if(!strncmp("mode = ", confline, 7)) {
+                } else if(strncmp("mode = ", confline, 7) == 0) {
                     strcpy(thelp, getsparam(confline));
-                    if(!strncmp(thelp, "yt", 2)) {
+                    if(strncmp(thelp, "yt", 2) == 0) {
                         currscope->setMode(M_YT);
-                    } else if(!strncmp(thelp, "xy", 2)) {
+                    } else if(strncmp(thelp, "xy", 2) == 0) {
                         currscope->setMode(M_XY);
-                    } else if(!strncmp(thelp, "fft", 3)) {
+                    } else if(strncmp(thelp, "fft", 3) == 0) {
                         currscope->setMode(M_FFT);
                     } else {
                         printf("no such parameter for mode in [scope]: %s\n", thelp);
                     }
-                } else if(!strncmp("sweep = ", confline, 8)) {
+                } else if(strncmp("sweep = ", confline, 8) == 0) {
                     currscope->setSweep(getfparam(confline));
 //ToFix                else if(!strncmp("bcol = ", confline, 7))
 //ToFix                    currscope->setBCol(getsparam(confline));
@@ -456,68 +456,68 @@ int ControllerClass::readconfig(const std::string &file) {
 //ToFix                    currscope->setMarkCol(getsparam(confline));
 //ToFix                else if(!strncmp("textcol = ", confline, 10))
 //ToFix                    currscope->setTextCol(getsparam(confline));
-                } else if(!strncmp("font = ", confline, 7)) {
+                } else if(strncmp("font = ", confline, 7) == 0) {
                     currscope->setFont(getsparam(confline));
-                } else if(!strncmp("width = ", confline, 8)) {
+                } else if(strncmp("width = ", confline, 8) == 0) {
                     currscope->setWidth(getiparam(confline));
-                } else if(!strncmp("height = ", confline, 9)) {
+                } else if(strncmp("height = ", confline, 9) == 0) {
                     currscope->setHeight(getiparam(confline));
-                } else if(!strncmp("hdivs = ", confline, 8)) {
+                } else if(strncmp("hdivs = ", confline, 8) == 0) {
                     currscope->setHDivs(getiparam(confline));
-                } else if(!strncmp("vdivs = ", confline, 8)) {
+                } else if(strncmp("vdivs = ", confline, 8) == 0) {
                     currscope->setVDivs(getiparam(confline));
-                } else if(!strncmp("trace = ", confline, 8)) {
-                    if(currscope->addTrace(getTrace(getsparam(confline)))) {
+                } else if(strncmp("trace = ", confline, 8) == 0) {
+                    if(currscope->addTrace(getTrace(getsparam(confline))) != 0) {
                         std::cerr << "readconfig(): cannot add Trace " << std::string(getsparam(confline)) << std::endl;
                     }
-                } else if(!strncmp("trigger_source = ", confline, 17)) {
+                } else if(strncmp("trigger_source = ", confline, 17) == 0) {
                     currscope->setTriggerSource(getsparam(confline));
-                } else if(!strncmp("trigger_level = ", confline, 16)) {
+                } else if(strncmp("trigger_level = ", confline, 16) == 0) {
                     currscope->setTriggerLevel(getfparam(confline));
-                } else if(!strncmp("trigger_edge = ", confline, 15)) {
+                } else if(strncmp("trigger_edge = ", confline, 15) == 0) {
                     strcpy(thelp, getsparam(confline));
-                    if(!strncmp(thelp, "fall", 4)) {
+                    if(strncmp(thelp, "fall", 4) == 0) {
                         currscope->setTriggerEdge(TE_FALL);
-                    } else if(!strncmp(thelp, "rise", 4)) {
+                    } else if(strncmp(thelp, "rise", 4) == 0) {
                         currscope->setTriggerEdge(TE_RISE);
-                    } else if(!strncmp(thelp, "none", 4)) {
+                    } else if(strncmp(thelp, "none", 4) == 0) {
                         currscope->setTriggerEdge(TE_NONE);
                     } else {
                         printf("no such parameter for trigger_edge in [scope]: %s\n", thelp);
                     }
-                } else if(!strncmp("xysource_x = ", confline, 13)) {
+                } else if(strncmp("xysource_x = ", confline, 13) == 0) {
                     currscope->setXYSourceX(getsparam(confline));
-                } else if(!strncmp("xysource_y = ", confline, 13)) {
+                } else if(strncmp("xysource_y = ", confline, 13) == 0) {
                     currscope->setXYSourceY(getsparam(confline));
-                } else if(!strncmp("disp_f_min = ", confline, 13)) {
+                } else if(strncmp("disp_f_min = ", confline, 13) == 0) {
                     currscope->setDispFMin(getiparam(confline));
-                } else if(!strncmp("disp_f_max = ", confline, 13)) {
+                } else if(strncmp("disp_f_max = ", confline, 13) == 0) {
                     currscope->setDispFMax(getiparam(confline));
-                } else if(!strncmp("infotrace = ", confline, 12)) {
+                } else if(strncmp("infotrace = ", confline, 12) == 0) {
                     currscope->setInfoTraceName(getsparam(confline));
-                } else if(!strncmp("disp_log = ", confline, 11)) {
-                    if(!strcmp(getsparam(confline), "true")) {
+                } else if(strncmp("disp_log = ", confline, 11) == 0) {
+                    if(strcmp(getsparam(confline), "true") == 0) {
                         currscope->setDispLog(true);
                     } else {
                         currscope->setDispLog(false);
                     }
-                } else if(!strncmp("disp_db = ", confline, 10)) {
-                    if(!strcmp(getsparam(confline), "true")) {
+                } else if(strncmp("disp_db = ", confline, 10) == 0) {
+                    if(strcmp(getsparam(confline), "true") == 0) {
                         currscope->setDispDb(true);
                     } else {
                         currscope->setDispDb(false);
                     }
-                } else if(!strncmp("disp_db_ref = ", confline, 14)) {
+                } else if(strncmp("disp_db_ref = ", confline, 14) == 0) {
                     currscope->setDispDbRef(getfparam(confline));
-                } else if(!strncmp("v_div = ", confline, 8)) {
+                } else if(strncmp("v_div = ", confline, 8) == 0) {
                     currscope->setVDiv(getfparam(confline));
-                } else if(!strncmp("db_min = ", confline, 9)) {
+                } else if(strncmp("db_min = ", confline, 9) == 0) {
                     currscope->setDbMin(getfparam(confline));
-                } else if(!strncmp("db_max = ", confline, 9)) {
+                } else if(strncmp("db_max = ", confline, 9) == 0) {
                     currscope->setDbMax(getfparam(confline));
-                } else if(!strncmp("x = ", confline, 4)) {
+                } else if(strncmp("x = ", confline, 4) == 0) {
                     currscope->setXPos(getiparam(confline));
-                } else if(!strncmp("y = ", confline, 4)) {
+                } else if(strncmp("y = ", confline, 4) == 0) {
                     currscope->setYPos(getiparam(confline));
                 } else {
                     printf("no such option in [scope]: %s\n", confline);
@@ -547,7 +547,7 @@ int ControllerClass::readconfig(const std::string &file) {
 
 int ControllerClass::getiparam(char *text) {
     unsigned int start;
-    for(start = 0; strncmp("= ", text + start, 2) && start < strlen(text); start++) {
+    for(start = 0; (strncmp("= ", text + start, 2) != 0) && start < strlen(text); start++) {
         ;
     }
     start += 2;
@@ -557,7 +557,7 @@ int ControllerClass::getiparam(char *text) {
 char *ControllerClass::getsparam(char *text) {
     int start;
 
-    for(start = 0; strncmp("= ", text + start, 2); start++) {
+    for(start = 0; strncmp("= ", text + start, 2) != 0; start++) {
         ;
     }
     start += 2;
@@ -567,7 +567,7 @@ char *ControllerClass::getsparam(char *text) {
 
 float ControllerClass::getfparam(char *text) {
     unsigned int start;
-    for(start = 0; strncmp("= ", text + start, 2) && start < strlen(text); start++) {
+    for(start = 0; (strncmp("= ", text + start, 2) != 0) && start < strlen(text); start++) {
         ;
     }
     start += 2;
@@ -581,7 +581,7 @@ int ControllerClass::writeconfig(const std::string &filename) {
     FILE *file;
 
     file = fopen(filename.c_str(), "w");
-    if(!file) {
+    if(file == nullptr) {
         fprintf(stderr, "writeconfig(): Could not open file %s (%s)\n", filename.c_str(), strerror(errno));
         return -1;
     }

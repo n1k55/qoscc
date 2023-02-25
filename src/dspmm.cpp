@@ -53,7 +53,7 @@ int dspMM::openDevice() {
         return -1;
     }
 
-    if(!isatty(fd)) {
+    if(isatty(fd) == 0) {
         fprintf(stderr,"dspMM::openDevice(): %s is not a valid device!\n", deviceName.c_str());
         close(fd);
         return -1;
@@ -74,7 +74,7 @@ int dspMM::openDevice() {
         printf("testing %d\n", speed[si]);
         fflush(stdout);
         // configure the device
-        if(cfsetispeed(&settings, speed[si]) | cfsetospeed(&settings, speed[si])) {
+        if((cfsetispeed(&settings, speed[si]) | cfsetospeed(&settings, speed[si])) != 0) {
             MSG(MSG_ERROR, "Unable to set terminal parameters!\n");
             continue;
         }
@@ -122,7 +122,7 @@ int dspMM::openDevice() {
 
         // else test a lower speed...
         si ++;
-    } while(speed[si]);
+    } while(speed[si] != 0);
 
     close(fd);
     return -1;
@@ -176,7 +176,7 @@ int dspMM::readdsp(dbuffer *fbuf) {
     }
 
     // check if at least one buffer exists!
-    if(!fbuf) {
+    if(fbuf == nullptr) {
         return -1;
     }
 
@@ -219,7 +219,7 @@ int dspMM::readdsp(dbuffer *fbuf) {
     // These are the units supported by the ME-32
     // report me types for others.....
     dbuffer::sampleUnits unit = dbuffer::unone;
-    if(!strncmp(buf, "DC", 2)){ // DC amp and volt
+    if(strncmp(buf, "DC", 2) == 0){ // DC amp and volt
         if(buf[12] == 'V') {
             unit = dbuffer::vdc;
         } else if(buf[12] == 'A') {
@@ -228,7 +228,7 @@ int dspMM::readdsp(dbuffer *fbuf) {
             unit = dbuffer::unone;
         }
     }
-    else if(!strncmp(buf, "AC", 2)){ // AC amp and volt
+    else if(strncmp(buf, "AC", 2) == 0){ // AC amp and volt
         if(buf[12] == 'V') {
             unit = dbuffer::vac;
         } else if(buf[12] == 'A') {
@@ -237,13 +237,13 @@ int dspMM::readdsp(dbuffer *fbuf) {
             unit = dbuffer::unone;
         }
     }
-    else if(!strncmp(buf, "OH", 2)) { // Ohms
+    else if(strncmp(buf, "OH", 2) == 0) { // Ohms
         unit = dbuffer::ohm;
-    } else if(!strncmp(buf, "DI", 2)) { // Uf in Volts dc
+    } else if(strncmp(buf, "DI", 2) == 0) { // Uf in Volts dc
         unit = dbuffer::vdc;
-    } else if(!strncmp(buf, "TE", 2)) { // Temperature in Celsius
+    } else if(strncmp(buf, "TE", 2) == 0) { // Temperature in Celsius
         unit = dbuffer::celsius;
-    } else if(!strncmp(buf, "CA", 2)) { // Capacity in Farad
+    } else if(strncmp(buf, "CA", 2) == 0) { // Capacity in Farad
         unit = dbuffer::farad;
     }
 

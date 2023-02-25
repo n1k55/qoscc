@@ -174,7 +174,7 @@ void TraceControl::getName() {
 }
 
 void TraceControl::update() {
-    if(!trace) {
+    if(trace == nullptr) {
         return;
     }
 
@@ -218,7 +218,7 @@ void TraceControl::setParentDevice(const QString &name) {
     if(name.isEmpty()) {
         return;
     }
-    if(!_parentController->getDevice(name.toStdString())) {
+    if(_parentController->getDevice(name.toStdString()) == nullptr) {
         QMessageBox::critical(this, tr("Ooops.."), tr("No such Device:") + name);
         return;
     }
@@ -265,7 +265,7 @@ void TraceControl::updateParent() {
 // void updateParentChannels()
 // update Parent selection combo boxes
 void TraceControl::updateParentChannels() {
-    if(!trace->getParent()) {
+    if(trace->getParent() == nullptr) {
         return;
     }
 
@@ -290,7 +290,7 @@ void TraceControl::updatePerfectBuffer() {
 }
 
 void TraceControl::updateBuffersize() {
-    if(!trace->getParent()) {
+    if(trace->getParent() == nullptr) {
         return;
     }
     int i;
@@ -306,9 +306,9 @@ void TraceControl::updateBuffersize() {
 
 void TraceControl::setBuffersize() {
     double value = stringToNum(bufferSize->currentText().toStdString());
-    if(trace->getParent() && value >= 0) {
+    if((trace->getParent() != nullptr) && value >= 0) {
         emit(setStatus(tr("Setting buffersize. This may take a while")));
-        if(trace->setBufferSize((unsigned int)(value * trace->getParent()->getDspRate() + 0.5))) {
+        if(trace->setBufferSize((unsigned int)(value * trace->getParent()->getDspRate() + 0.5)) != 0) {
             emit(setStatus(tr("Setting buffersize to %1 samples failed").arg((unsigned int)(value * trace->getParent()->getDspRate() + 0.5))));
         } else {
             emit(setStatus(QString(tr("Set buffersize to %1s")).arg(QString::fromStdString(numToString(value)))));
