@@ -17,6 +17,8 @@ find_package(Jack REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(FFTW3 REQUIRED fftw3)
 
+add_compile_options(-Wall)
+
 set(MISC_SOURCES
   src/misc.cpp
   include/misc.h
