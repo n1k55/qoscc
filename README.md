@@ -12,6 +12,7 @@ WIP:
 TODO:
 - get rid of handcrafted stringlist;
 - unify locks usage;
+- add layouts to group-boxes;
 
 
 History
